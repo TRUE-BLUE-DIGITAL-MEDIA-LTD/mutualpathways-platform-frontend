@@ -7,6 +7,7 @@ import { API_URL }
 
 import {
   useState,
+  type FormEvent,
 } from 'react';
 
 import axios from 'axios';
@@ -42,7 +43,7 @@ export default function ChangePasswordPage() {
   ] = useState('');
 
   async function handleSubmit(
-    e,
+    e: FormEvent<HTMLFormElement>,
   ) {
 
     e.preventDefault();

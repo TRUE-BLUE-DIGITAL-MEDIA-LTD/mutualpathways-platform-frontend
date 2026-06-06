@@ -9,6 +9,7 @@ import {
 } from 'next/navigation';
 
 import {
+  Suspense,
   useState,
 } from 'react';
 
@@ -18,6 +19,18 @@ import Navbar
   from '../../components/Navbar';
 
 export default function ResetPasswordPage() {
+
+  return (
+
+    <Suspense>
+
+      <ResetPasswordForm />
+
+    </Suspense>
+  );
+}
+
+function ResetPasswordForm() {
 
   const params =
     useSearchParams();

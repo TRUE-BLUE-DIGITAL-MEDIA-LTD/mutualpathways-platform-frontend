@@ -1068,7 +1068,12 @@ function Input({
   value,
   onChange,
   type = 'text',
-}: any) {
+}: {
+  label: string;
+  value: string | number;
+  onChange: (value: string) => void;
+  type?: string;
+}) {
 
   return (
 

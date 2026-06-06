@@ -5,6 +5,7 @@ import { API_URL }
 
 
 import {
+  Suspense,
   useEffect,
   useState,
 } from 'react';
@@ -19,6 +20,18 @@ import Navbar
   from '../../components/Navbar';
 
 export default function VerifyEmailPage() {
+
+  return (
+
+    <Suspense>
+
+      <VerifyEmail />
+
+    </Suspense>
+  );
+}
+
+function VerifyEmail() {
 
   const params =
     useSearchParams();
