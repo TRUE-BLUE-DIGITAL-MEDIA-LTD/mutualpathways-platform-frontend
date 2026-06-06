@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root{
+  --background:#000;
+  --foreground:#fff;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  margin:0;
+  padding:0;
+  background:#000;
+  color:#fff;
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+
+  overflow-x:hidden;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+img{
+  max-width:100%;
+  display:block;
+}
+
+/* SAFE BUTTON RESET */
+
+button{
+  cursor:pointer;
+  border:none;
+}
+
+/* SAFE INPUT RESET */
+
+input,
+textarea,
+select{
+  font-family:inherit;
+  color:inherit;
+}
+
+/* KEEP TEXT VISIBLE */
+
+.btn-primary,
+.btn-secondary,
+.cta-final{
+  color:#fff;
+}
+
+/* FIX WHITE BUTTONS */
+
+.bg-white{
+  color:#000;
+}
