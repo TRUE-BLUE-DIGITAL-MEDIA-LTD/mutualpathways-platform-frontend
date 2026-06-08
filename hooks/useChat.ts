@@ -5,18 +5,22 @@ import { useChatContext } from '../app/chat/ChatProvider';
 
 export function useChat(otherUserId: string | null) {
   const ctx = useChatContext();
+  // Depend on the individual callbacks (stable via useCallback), NOT the whole
+  // ctx object. ctx is recreated on every ChatProvider render (state changes),
+  // so depending on it would re-run this effect on every render — and markRead
+  // dispatches a state change, causing an infinite update loop.
+  const { setActive, loadConversation, markRead } = ctx;
 
   useEffect(() => {
     if (!otherUserId) {
-      ctx.setActive(null);
+      setActive(null);
       return;
     }
-    ctx.setActive(otherUserId);
-    ctx.loadConversation(otherUserId);
-    ctx.markRead(otherUserId);
-    return () => ctx.setActive(null);
-    // ctx methods are stable (useCallback)
-  }, [otherUserId, ctx]);
+    setActive(otherUserId);
+    loadConversation(otherUserId);
+    markRead(otherUserId);
+    return () => setActive(null);
+  }, [otherUserId, setActive, loadConversation, markRead]);
 
   return {
     messages: otherUserId ? ctx.state.conversations[otherUserId] ?? [] : [],
