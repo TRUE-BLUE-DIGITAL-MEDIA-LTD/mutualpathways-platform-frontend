@@ -65,7 +65,13 @@ export interface ServerToClientEvents {
 
 export interface ClientToServerEvents {
   'message:send': (
-    payload: { receiverId: string; content: string; clientTempId: string },
+    payload: {
+      receiverId: string;
+      content?: string;
+      attachmentKey?: string;
+      attachmentType?: string;
+      clientTempId: string;
+    },
     ack: (res: SendAck) => void,
   ) => void;
   'message:read': (payload: { otherUserId: string }) => void;

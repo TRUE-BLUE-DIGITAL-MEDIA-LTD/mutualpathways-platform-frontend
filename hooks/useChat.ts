@@ -28,6 +28,8 @@ export function useChat(otherUserId: string | null) {
     typing: otherUserId ? Boolean(ctx.state.typing[otherUserId]) : false,
     send: (content: string) =>
       otherUserId ? ctx.sendMessage(otherUserId, content) : Promise.resolve(),
+    sendImage: (file: File) =>
+      otherUserId ? ctx.sendImage(otherUserId, file) : Promise.resolve(),
     loadOlder: () =>
       otherUserId ? ctx.loadOlder(otherUserId) : Promise.resolve(),
     retry: (clientTempId: string) =>

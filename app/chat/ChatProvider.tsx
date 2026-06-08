@@ -19,13 +19,16 @@ import {
 } from '../../lib/chat/types';
 import {
   addOptimistic,
+  addOptimisticImage,
   applyAck,
   applyIncoming,
   applyRead,
   markFailed,
   mergeHistory,
   prependOlder,
+  setUploadProgress,
 } from '../../lib/chat/reconcile';
+import { uploadImage } from '../../lib/upload/uploadImage';
 
 type ConnectionStatus = 'connecting' | 'connected' | 'disconnected';
 
@@ -54,6 +57,19 @@ type Action =
         createdAt: string;
       };
     }
+  | {
+      type: 'ADD_OPTIMISTIC_IMAGE';
+      otherUserId: string;
+      draft: {
+        clientTempId: string;
+        senderId: string;
+        receiverId: string;
+        localPreviewUrl: string;
+        attachmentType: string;
+        createdAt: string;
+      };
+    }
+  | { type: 'UPLOAD_PROGRESS'; otherUserId: string; clientTempId: string; progress: number }
   | { type: 'ACK'; otherUserId: string; ack: { id: string; createdAt: string; clientTempId: string } }
   | { type: 'FAIL'; otherUserId: string; clientTempId: string }
   | { type: 'INCOMING'; message: ServerMessage; activeId: string | null }
@@ -111,6 +127,18 @@ function reducer(state: State, action: Action): State {
         state,
         action.otherUserId,
         addOptimistic(existing, action.draft),
+      );
+    }
+    case 'ADD_OPTIMISTIC_IMAGE': {
+      const existing = state.conversations[action.otherUserId] ?? [];
+      return setConv(state, action.otherUserId, addOptimisticImage(existing, action.draft));
+    }
+    case 'UPLOAD_PROGRESS': {
+      const existing = state.conversations[action.otherUserId] ?? [];
+      return setConv(
+        state,
+        action.otherUserId,
+        setUploadProgress(existing, action.clientTempId, action.progress),
       );
     }
     case 'ACK': {
@@ -183,6 +211,7 @@ interface ChatContextValue {
   loadConversation: (otherUserId: string) => Promise<void>;
   loadOlder: (otherUserId: string) => Promise<void>;
   sendMessage: (otherUserId: string, content: string) => Promise<void>;
+  sendImage: (otherUserId: string, file: File) => Promise<void>;
   retry: (otherUserId: string, clientTempId: string) => Promise<void>;
   markRead: (otherUserId: string) => void;
   emitTyping: (otherUserId: string, isTyping: boolean) => void;
@@ -378,6 +407,49 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const sendImage = useCallback(async (otherUserId: string, file: File) => {
+    const clientTempId =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
+    const createdAt = new Date().toISOString();
+    const localPreviewUrl = URL.createObjectURL(file);
+
+    dispatch({
+      type: 'ADD_OPTIMISTIC_IMAGE',
+      otherUserId,
+      draft: {
+        clientTempId,
+        senderId: currentUserIdRef.current,
+        receiverId: otherUserId,
+        localPreviewUrl,
+        attachmentType: file.type,
+        createdAt,
+      },
+    });
+
+    try {
+      const { key, contentType } = await uploadImage(file, 'chat', {
+        receiverId: otherUserId,
+        onProgress: (progress) =>
+          dispatch({ type: 'UPLOAD_PROGRESS', otherUserId, clientTempId, progress }),
+      });
+      const ack = await socket.timeout(10000).emitWithAck('message:send', {
+        receiverId: otherUserId,
+        attachmentKey: key,
+        attachmentType: contentType,
+        clientTempId,
+      });
+      if (ack && ack.id) {
+        dispatch({ type: 'ACK', otherUserId, ack });
+      } else {
+        dispatch({ type: 'FAIL', otherUserId, clientTempId });
+      }
+    } catch {
+      dispatch({ type: 'FAIL', otherUserId, clientTempId });
+    }
+  }, []);
+
   const retry = useCallback(
     async (otherUserId: string, clientTempId: string) => {
       const existing = conversationsRef.current[otherUserId] ?? [];
@@ -410,6 +482,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     loadConversation,
     loadOlder,
     sendMessage,
+    sendImage,
     retry,
     markRead,
     emitTyping,
