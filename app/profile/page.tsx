@@ -14,6 +14,8 @@ import axios from 'axios';
 import Navbar
   from '../../components/Navbar';
 
+import { uploadImage as uploadImageToGcs } from '../../lib/upload/uploadImage';
+
 export default function ProfilePage() {
 
   const [user, setUser] =
@@ -25,10 +27,16 @@ export default function ProfilePage() {
   const [uploading, setUploading] =
     useState(false);
 
+  const [uploadProgress, setUploadProgress] =
+    useState(0);
+
+  const [imagePreview, setImagePreview] =
+    useState<string>('');
+
   const [form, setForm] =
     useState<any>({
 
-      imageUrl: '',
+      imageKey: '',
 
       displayName: '',
 
@@ -107,19 +115,20 @@ export default function ProfilePage() {
       const profile = {
 
         ...(userData?.profile || {}),
-
-        imageUrl:
-          userData?.profile?.imageUrl ||
-          userData?.imageUrl ||
-          '',
       };
+
+      setImagePreview(
+        profile.imageUrl ||
+        userData?.imageUrl ||
+        '',
+      );
 
       setForm((prev: any) => ({
 
   ...prev,
 
-  imageUrl:
-    profile.imageUrl ?? prev.imageUrl,
+  imageKey:
+    profile.imageKey ?? prev.imageKey,
 
   displayName:
     profile.displayName ?? prev.displayName,
@@ -209,7 +218,7 @@ export default function ProfilePage() {
           'token',
         );
 
-      await axios.put(
+      const res = await axios.put(
         `${API_URL}/profile/me`,
         form,
         {
@@ -219,6 +228,10 @@ export default function ProfilePage() {
           },
         },
       );
+
+      if (res.data?.imageUrl) {
+        setImagePreview(res.data.imageUrl);
+      }
 
       await fetchMe();
 
@@ -240,94 +253,31 @@ export default function ProfilePage() {
     }
   }
 
-  async function uploadImage(
-    e: any,
-  ) {
-
+  async function uploadImage(e: any) {
+    const file = e.target.files?.[0];
+    if (!file) {
+      return;
+    }
     try {
-
-      const file =
-        e.target.files?.[0];
-
-      if (!file) {
-        return;
-      }
-
       setUploading(true);
-
-      const token =
-        localStorage.getItem(
-          'token',
-        );
-
-      const formData =
-        new FormData();
-
-      formData.append(
-        'file',
-        file,
-      );
-
-      const response =
-        await axios.post(
-          `${API_URL}/profile/upload`,
-          formData,
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-              'Content-Type':
-                'multipart/form-data',
-            },
-          },
-        );
-
-      if (
-        response.data?.imageUrl
-      ) {
-
-        setForm((prev: any) => ({
-
-          ...prev,
-
-          imageUrl:
-            response.data.imageUrl,
-        }));
-      }
-
-      alert(
-        'Image uploaded successfully',
-      );
-
-    } catch (error) {
-
-      console.log(error);
-
-      alert(
-        'Upload failed',
-      );
-
+      setUploadProgress(0);
+      const { key } = await uploadImageToGcs(file, 'profile', {
+        onProgress: setUploadProgress,
+      });
+      setForm((prev: any) => ({ ...prev, imageKey: key }));
+      setImagePreview(URL.createObjectURL(file));
+    } catch (err: any) {
+      alert(err?.message || 'Image upload failed');
     } finally {
-
       setUploading(false);
     }
   }
 
   function getImageUrl() {
-
-    if (
-      !form.imageUrl ||
-      form.imageUrl === 'null'
-    ) {
-
+    if (!imagePreview || imagePreview === 'null') {
       return 'https://placehold.co/400x400/18181b/ffffff?text=Profile';
     }
-
-    return form.imageUrl.startsWith(
-      'http',
-    )
-      ? form.imageUrl
-      : `${API_URL}${form.imageUrl}`;
+    return imagePreview;
   }
 
   function updateField(
@@ -520,6 +470,18 @@ export default function ProfilePage() {
                 text-zinc-300
               "
             />
+
+            {uploading && (
+              <div className="mt-2">
+                <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
+                  <div
+                    className="h-full bg-pink-500 transition-all"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+                <p className="mt-1 text-xs text-zinc-400">Uploading… {uploadProgress}%</p>
+              </div>
+            )}
 
           </div>
 
