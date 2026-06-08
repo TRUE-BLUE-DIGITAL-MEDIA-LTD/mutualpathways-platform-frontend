@@ -207,6 +207,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const activeRef = useRef<string | null>(null);
   const loadedRef = useRef<Set<string>>(new Set());
+  // Mirror reducer state into refs so the context callbacks below stay
+  // identity-stable ([] deps). Otherwise callbacks that read conversations or
+  // the current user id would be recreated on every message, changing the
+  // context value and re-running useChat's effect (which re-emits message:read).
+  const conversationsRef = useRef<Record<string, ChatMessage[]>>({});
+  conversationsRef.current = state.conversations;
+  const currentUserIdRef = useRef('');
+  currentUserIdRef.current = state.currentUserId;
 
   const setActive = useCallback((otherUserId: string | null) => {
     activeRef.current = otherUserId;
@@ -310,7 +318,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   const loadOlder = useCallback(
     async (otherUserId: string) => {
-      const existing = state.conversations[otherUserId] ?? [];
+      const existing = conversationsRef.current[otherUserId] ?? [];
       const oldest = existing.find((m) => m.status === 'sent');
       if (!oldest) {
         return;
@@ -325,7 +333,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         // non-fatal
       }
     },
-    [state.conversations],
+    [],
   );
 
   const sendMessage = useCallback(
@@ -344,7 +352,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         otherUserId,
         draft: {
           clientTempId,
-          senderId: state.currentUserId,
+          senderId: currentUserIdRef.current,
           receiverId: otherUserId,
           content: trimmed,
           createdAt,
@@ -367,12 +375,12 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         dispatch({ type: 'FAIL', otherUserId, clientTempId });
       }
     },
-    [state.currentUserId],
+    [],
   );
 
   const retry = useCallback(
     async (otherUserId: string, clientTempId: string) => {
-      const existing = state.conversations[otherUserId] ?? [];
+      const existing = conversationsRef.current[otherUserId] ?? [];
       const failed = existing.find((m) => m.clientTempId === clientTempId);
       if (!failed) {
         return;
@@ -380,7 +388,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       dispatch({ type: 'ACK', otherUserId, ack: { id: clientTempId, createdAt: failed.createdAt, clientTempId } });
       await sendMessage(otherUserId, failed.content);
     },
-    [state.conversations, sendMessage],
+    [sendMessage],
   );
 
   const markRead = useCallback((otherUserId: string) => {
