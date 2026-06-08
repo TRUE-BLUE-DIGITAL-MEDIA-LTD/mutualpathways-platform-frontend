@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { API_URL } from '../../lib/api';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Navbar from '../../components/Navbar';
-import { ChatProvider, useChatContext } from './ChatProvider';
-import { useChat } from '../../hooks/useChat';
-import { usePresence } from '../../hooks/usePresence';
-import ChatList from './components/ChatList';
-import MessageThread from './components/MessageThread';
-import MessageInput from './components/MessageInput';
+import { API_URL } from "../../lib/api";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Navbar from "../../components/Navbar";
+import { ChatProvider, useChatContext } from "./ChatProvider";
+import { useChat } from "../../hooks/useChat";
+import { usePresence } from "../../hooks/usePresence";
+import ChatList from "./components/ChatList";
+import MessageThread from "./components/MessageThread";
+import MessageInput from "./components/MessageInput";
 
 interface MatchedUser {
   userId: string;
@@ -25,18 +25,18 @@ interface Match {
 
 function imageUrl(url?: string | null) {
   if (!url) {
-    return 'https://placehold.co/200x200/18181b/ffffff?text=User';
+    return "https://placehold.co/200x200/18181b/ffffff?text=User";
   }
-  return url.startsWith('http') ? url : `${API_URL}${url}`;
+  return url.startsWith("http") ? url : `${API_URL}${url}`;
 }
 
 function formatLastSeen(date?: string | null) {
   if (!date) {
-    return 'Offline';
+    return "Offline";
   }
   const lastSeen = new Date(date);
   const diffMinutes = Math.floor((Date.now() - lastSeen.getTime()) / 60000);
-  if (diffMinutes < 1) return 'Last seen just now';
+  if (diffMinutes < 1) return "Last seen just now";
   if (diffMinutes < 60) return `Last seen ${diffMinutes} min ago`;
   const diffHours = Math.floor(diffMinutes / 60);
   if (diffHours < 24) return `Last seen ${diffHours}h ago`;
@@ -56,7 +56,7 @@ function ChatWorkspace() {
   useEffect(() => {
     async function fetchMatches() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const res = await axios.get(`${API_URL}/likes/matches`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -72,7 +72,7 @@ function ChatWorkspace() {
     <main className="min-h-screen bg-black text-white">
       <Navbar />
 
-      {status === 'disconnected' && (
+      {status === "disconnected" && (
         <div className="bg-amber-600 py-1 text-center text-sm">
           Reconnecting…
         </div>
@@ -96,15 +96,15 @@ function ChatWorkspace() {
                 />
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {selected.displayName || 'User'}
+                    {selected.displayName || "User"}
                   </h2>
                   <p
                     className={`text-sm ${
-                      presence.online ? 'text-green-400' : 'text-zinc-500'
+                      presence.online ? "text-green-400" : "text-zinc-500"
                     }`}
                   >
                     {presence.online
-                      ? 'Online'
+                      ? "Online"
                       : formatLastSeen(presence.lastSeen ?? selected.lastSeen)}
                   </p>
                 </div>
@@ -119,7 +119,7 @@ function ChatWorkspace() {
               />
 
               <MessageInput
-                disabled={status !== 'connected'}
+                disabled={status !== "connected"}
                 onSend={send}
                 onTyping={emitTyping}
               />
