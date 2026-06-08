@@ -93,6 +93,45 @@ export function mergeHistory(
   return sortByCreatedAt(Array.from(byId.values()));
 }
 
+export function addOptimisticImage(
+  messages: ChatMessage[],
+  draft: {
+    clientTempId: string;
+    senderId: string;
+    receiverId: string;
+    localPreviewUrl: string;
+    attachmentType: string;
+    createdAt: string;
+  },
+): ChatMessage[] {
+  const optimistic: ChatMessage = {
+    id: draft.clientTempId,
+    clientTempId: draft.clientTempId,
+    senderId: draft.senderId,
+    receiverId: draft.receiverId,
+    content: '',
+    createdAt: draft.createdAt,
+    deliveredAt: null,
+    readAt: null,
+    attachmentUrl: null,
+    attachmentType: draft.attachmentType,
+    localPreviewUrl: draft.localPreviewUrl,
+    uploadProgress: 0,
+    status: 'uploading',
+  };
+  return sortByCreatedAt([...messages, optimistic]);
+}
+
+export function setUploadProgress(
+  messages: ChatMessage[],
+  clientTempId: string,
+  progress: number,
+): ChatMessage[] {
+  return messages.map((m) =>
+    m.clientTempId === clientTempId ? { ...m, uploadProgress: progress } : m,
+  );
+}
+
 export function prependOlder(
   existing: ChatMessage[],
   older: ServerMessage[],

@@ -1,4 +1,4 @@
-export type MessageStatus = 'pending' | 'sent' | 'failed';
+export type MessageStatus = 'pending' | 'uploading' | 'sent' | 'failed';
 
 /** A message exactly as the server sends it (over socket or REST). */
 export interface ServerMessage {
@@ -9,12 +9,17 @@ export interface ServerMessage {
   createdAt: string;
   deliveredAt: string | null;
   readAt: string | null;
+  attachmentUrl?: string | null;
+  attachmentType?: string | null;
+  attachmentKey?: string | null;
 }
 
 /** A message in UI state: server fields plus client-only tracking. */
 export interface ChatMessage extends ServerMessage {
   clientTempId?: string;
   status: MessageStatus;
+  localPreviewUrl?: string;
+  uploadProgress?: number;
 }
 
 export interface SendAck {

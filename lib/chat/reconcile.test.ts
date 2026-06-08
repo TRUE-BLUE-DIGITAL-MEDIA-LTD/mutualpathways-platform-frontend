@@ -1,12 +1,14 @@
 import { describe, it, expect } from 'vitest';
 import {
   addOptimistic,
+  addOptimisticImage,
   applyAck,
   applyIncoming,
   applyRead,
   markFailed,
   mergeHistory,
   prependOlder,
+  setUploadProgress,
 } from './reconcile';
 import { ChatMessage, ServerMessage } from './types';
 
@@ -135,5 +137,40 @@ describe('prependOlder', () => {
       serverMsg('m2', { createdAt: '2024-01-01T00:00:20.000Z' }),
     ]);
     expect(result.map((m) => m.id)).toEqual(['m1', 'm2']);
+  });
+});
+
+describe('addOptimisticImage', () => {
+  it('adds an uploading image message with a local preview', () => {
+    const result = addOptimisticImage([], {
+      clientTempId: 't1',
+      senderId: 'me',
+      receiverId: 'other',
+      localPreviewUrl: 'blob:preview',
+      attachmentType: 'image/jpeg',
+      createdAt: '2024-01-01T00:00:10.000Z',
+    });
+    expect(result).toHaveLength(1);
+    expect(result[0]).toMatchObject({
+      id: 't1',
+      clientTempId: 't1',
+      status: 'uploading',
+      content: '',
+      attachmentType: 'image/jpeg',
+      localPreviewUrl: 'blob:preview',
+      uploadProgress: 0,
+    });
+  });
+});
+
+describe('setUploadProgress', () => {
+  it('updates the progress of the matching uploading message', () => {
+    const start = addOptimisticImage([], {
+      clientTempId: 't1', senderId: 'me', receiverId: 'other',
+      localPreviewUrl: 'blob:preview', attachmentType: 'image/jpeg',
+      createdAt: '2024-01-01T00:00:10.000Z',
+    });
+    const updated = setUploadProgress(start, 't1', 42);
+    expect(updated[0].uploadProgress).toBe(42);
   });
 });
