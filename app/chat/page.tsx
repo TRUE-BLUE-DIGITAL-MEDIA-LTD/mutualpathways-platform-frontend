@@ -49,7 +49,7 @@ function ChatWorkspace() {
   const [selected, setSelected] = useState<MatchedUser | null>(null);
 
   const otherUserId = selected?.userId ?? null;
-  const { messages, typing, status, send, loadOlder, retry, emitTyping } =
+  const { messages, typing, status, send, loadOlder, retry, emitTyping, sendImage } =
     useChat(otherUserId);
   const presence = usePresence(otherUserId);
 
@@ -122,6 +122,7 @@ function ChatWorkspace() {
                 disabled={status !== "connected"}
                 onSend={send}
                 onTyping={emitTyping}
+                onSendImage={sendImage}
               />
             </>
           ) : (
