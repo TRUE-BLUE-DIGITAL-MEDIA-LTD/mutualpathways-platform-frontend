@@ -6,14 +6,17 @@ export default function MessageInput({
   disabled,
   onSend,
   onTyping,
+  onSendImage,
 }: {
   disabled: boolean;
   onSend: (content: string) => void;
   onTyping: (isTyping: boolean) => void;
+  onSendImage: (file: File) => void;
 }) {
   const [value, setValue] = useState('');
   const typingRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function stopTyping() {
     if (typingRef.current) {
@@ -48,8 +51,32 @@ export default function MessageInput({
     stopTyping();
   }
 
+  function handlePickImage(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      onSendImage(file);
+    }
+    e.target.value = '';
+  }
+
   return (
-    <div className="mt-4 flex gap-3">
+    <div className="mt-4 flex items-center gap-3">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/jpeg,image/png,image/webp,image/gif"
+        className="hidden"
+        onChange={handlePickImage}
+      />
+      <button
+        type="button"
+        disabled={disabled}
+        onClick={() => fileInputRef.current?.click()}
+        className="rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-4 text-lg disabled:opacity-50"
+        aria-label="Send image"
+      >
+        🖼️
+      </button>
       <input
         type="text"
         placeholder="Type a message..."
