@@ -245,10 +245,10 @@ export default function Quiz6Page() {
             <div>
 
               <h1 className="
-                text-3xl
+                text-2xl
                 font-semibold
-                leading-relaxed
-                mb-6
+                leading-8
+                mb-4
               ">
                 Discover What Matters
                 in Your Next
@@ -256,21 +256,21 @@ export default function Quiz6Page() {
               </h1>
 
               <h2 className="
-                text-lg
-                leading-relaxed
+                text-1xl
+                leading-5
                 font-medium
-                mb-5
+                mb-2
               ">
                 Before we can show you
                 the website where
                 connections grow through
-                shared interests and values.
+                shared interests and values
               </h2>
 
               <p className="
-                text-white/90
-                leading-7
-                mb-8
+                text-1xl
+                leading-5
+                mb-6
               ">
                 Help us find men who
                 align with your values

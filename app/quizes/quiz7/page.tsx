@@ -93,9 +93,29 @@ export default function Quiz7Page() {
 
   const handleFinish = () => {
 
-    window.location.href =
-      "https://linked2day.com/index.php?key=moazsn6prto62qi9a0gi";
-  };
+  const incomingParams =
+    new URLSearchParams(
+      window.location.search,
+    );
+
+  const target =
+    new URL(
+      'https://linked2day.com/index.php?key=moazsn6prto62qi9a0gi',
+    );
+
+  incomingParams.forEach(
+    (value, key) => {
+
+      target.searchParams.set(
+        key,
+        value,
+      );
+    },
+  );
+
+  window.location.href =
+    target.toString();
+};
 
   return (
 
@@ -165,7 +185,7 @@ export default function Quiz7Page() {
               bg-white/10
               rounded-full
               overflow-hidden
-              mb-8
+              mb-4
             ">
 
               <div
@@ -194,8 +214,8 @@ export default function Quiz7Page() {
                   <h1 className="
                     text-2xl
                     font-semibold
-                    leading-relaxed
-                    mb-6
+                    leading-8
+                    mb-4
                     text-center
                   ">
 
@@ -208,10 +228,10 @@ export default function Quiz7Page() {
                       steps[step] && (
 
                       <p className="
-                        text-white/80
-                        leading-7
+                        text-1xl
+                        leading-6
                         text-center
-                        mb-8
+                        mb-6
                       ">
 
                         {

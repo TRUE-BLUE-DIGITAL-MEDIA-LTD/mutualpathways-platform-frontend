@@ -112,9 +112,29 @@ export default function Quiz8Page() {
 
   const enterMemberArea = () => {
 
-    window.location.href =
-      "https://linked2day.com/index.php?key=moazsn6prto62qi9a0gi";
-  };
+  const incomingParams =
+    new URLSearchParams(
+      window.location.search,
+    );
+
+  const target =
+    new URL(
+      'https://linked2day.com/index.php?key=moazsn6prto62qi9a0gi',
+    );
+
+  incomingParams.forEach(
+    (value, key) => {
+
+      target.searchParams.set(
+        key,
+        value,
+      );
+    },
+  );
+
+  window.location.href =
+    target.toString();
+};
 
   return (
 
@@ -148,7 +168,7 @@ export default function Quiz8Page() {
           bg-zinc-200
           rounded-full
           overflow-hidden
-          mb-8
+          mb-4
         ">
 
           <div
@@ -174,9 +194,10 @@ export default function Quiz8Page() {
         ">
 
           <h1 className="
-            text-3xl
+            text-2xl
             font-bold
-            mb-6
+            leading-6
+            mb-4
           ">
             Meet Women Ready
             for a Real Connection
@@ -196,23 +217,25 @@ export default function Quiz8Page() {
                   alt="Relationship Preview"
 
                   className="
-                    w-3/4
-                    mx-auto
-                    rounded-2xl
-                    mb-6
-                  "
+                   w-[65%]
+                   mx-auto
+                   h-[65%]
+                   rounded-2xl
+                   object-cover
+                   mb-4
+                   "
                 />
 
                 <p className="
-                  text-lg
-                  mb-8
-                  leading-7
+                  text-1xl
+                  mb-4
+                  leading-5
                   text-zinc-700
                 ">
 
                   Answer a few questions
                   to discover what kind
-                  of man matches your
+                  of woman matches your
                   energy 💕
 
                 </p>

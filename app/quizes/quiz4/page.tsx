@@ -245,25 +245,26 @@ export default function Quiz4Page() {
                   w-3/4
                   mx-auto
                   rounded-2xl
-                  mb-6
+                  mb-4
                   object-cover
                   object-top
                 "
               />
 
               <h1 className="
-                text-3xl
+                text-2xl
                 font-bold
-                mb-5
-                leading-tight
+                mb-4
+                leading-5
               ">
                 Meet Relationship-Focused Men 💕
               </h1>
 
               <p className="
+                text-1xl
                 text-zinc-600
-                mb-8
-                leading-7
+                mb-4
+                leading-5
               ">
                 Discover emotionally mature
                 men who value honesty,

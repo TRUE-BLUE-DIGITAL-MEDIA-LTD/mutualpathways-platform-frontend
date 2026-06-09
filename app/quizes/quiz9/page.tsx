@@ -156,9 +156,29 @@ export default function Quiz9Page() {
 
   function enterMemberArea() {
 
-    window.location.href =
-      "https://linked2day.com/index.php?key=moazsn6prto62qi9a0gi";
-  }
+  const incomingParams =
+    new URLSearchParams(
+      window.location.search,
+    );
+
+  const target =
+    new URL(
+      'https://linked2day.com/index.php?key=moazsn6prto62qi9a0gi',
+    );
+
+  incomingParams.forEach(
+    (value, key) => {
+
+      target.searchParams.set(
+        key,
+        value,
+      );
+    },
+  );
+
+  window.location.href =
+    target.toString();
+}
 
   return (
 
@@ -227,7 +247,7 @@ export default function Quiz9Page() {
         max-w-md
         mx-auto
         mt-8
-        mb-10
+        mb-6
         px-4
       ">
 
@@ -249,7 +269,8 @@ export default function Quiz9Page() {
             bg-zinc-200
             rounded-full
             overflow-hidden
-            mb-6
+            mb-4
+            leading-6
           ">
 
             <div
@@ -271,10 +292,11 @@ export default function Quiz9Page() {
           </div>
 
           <h1 className="
-            text-3xl
+            text-2xl
             font-bold
             text-center
-            mb-6
+            leading-6
+            mb-4
           ">
 
             Meet Women Ready
@@ -295,8 +317,9 @@ export default function Quiz9Page() {
                   relative
                   overflow-hidden
                   rounded-2xl
-                  mb-5
+                  mb-4
                   h-[260px]
+                  leading-5
                 ">
 
                   <div
@@ -329,6 +352,8 @@ export default function Quiz9Page() {
                               h-[260px]
                               object-contain
                               bg-white
+                              mb-4
+                              leading-4
                             "
                           />
                         ),
@@ -395,7 +420,7 @@ export default function Quiz9Page() {
                 <p className="
                   text-center
                   text-[15px]
-                  leading-7
+                  leading-5
                   mb-6
                   text-zinc-700
                 ">
