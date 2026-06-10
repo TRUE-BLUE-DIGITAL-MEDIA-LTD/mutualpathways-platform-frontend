@@ -1,528 +1,265 @@
-'use client';
+"use client";
 
-import { API_URL }
-  from '../../../lib/api';
+import { API_URL } from "../../../lib/api";
 
+import Link from "next/link";
 
-import Link from 'next/link';
+import { useState } from "react";
 
-import {
-  useState,
-} from 'react';
+import Script from "next/script";
 
-import Script from 'next/script';
-
-import Navbar
-  from '../../../components/Navbar';
+import Navbar from "../../../components/Navbar";
 
 export default function Quiz4Page() {
+  const [step, setStep] = useState(0);
 
-  const [step, setStep] =
-    useState(0);
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
-
-  const [progress, setProgress] =
-    useState(0);
+  const [progress, setProgress] = useState(0);
 
   const questions = [
-
     {
-      title:
-        'Shared interests are:',
+      title: "Shared interests are:",
 
       answers: [
-        'Very important',
-        'Nice to have',
-        'Not essential',
-        'Less important than values',
+        "Very important",
+        "Nice to have",
+        "Not essential",
+        "Less important than values",
       ],
     },
 
     {
-      title:
-        'If he likes different hobbies, you:',
+      title: "If he likes different hobbies, you:",
 
       answers: [
-        'Enjoy learning about them',
-        'Don’t mind',
-        'Prefer more overlap',
-        'Focus more on emotional connection',
+        "Enjoy learning about them",
+        "Don’t mind",
+        "Prefer more overlap",
+        "Focus more on emotional connection",
       ],
     },
 
     {
-      title:
-        'Doing things together makes you feel:',
+      title: "Doing things together makes you feel:",
+
+      answers: ["Closer", "Happy", "Secure", "More emotionally connected"],
+    },
+
+    {
+      title: "In a relationship, you prefer:",
 
       answers: [
-        'Closer',
-        'Happy',
-        'Secure',
-        'More emotionally connected',
+        "Many shared activities",
+        "Some shared, some separate",
+        "Mostly separate interests",
+        "A healthy balance",
       ],
     },
 
     {
-      title:
-        'In a relationship, you prefer:',
+      title: "What makes you feel most valued in a relationship?",
 
       answers: [
-        'Many shared activities',
-        'Some shared, some separate',
-        'Mostly separate interests',
-        'A healthy balance',
+        "Honest communication",
+        "Consistency & effort",
+        "Quality time together",
+        "Feeling appreciated",
       ],
     },
 
     {
-      title:
-        'What makes you feel most valued in a relationship?',
+      title: "What bonds you most to a man?",
 
       answers: [
-        'Honest communication',
-        'Consistency & effort',
-        'Quality time together',
-        'Feeling appreciated',
+        "Shared experiences",
+        "Shared values",
+        "Emotional connection",
+        "Physical chemistry",
       ],
     },
 
     {
-      title:
-        'What bonds you most to a man?',
+      title: "What kind of relationship are you hoping to find?",
 
       answers: [
-        'Shared experiences',
-        'Shared values',
-        'Emotional connection',
-        'Physical chemistry',
-      ],
-    },
-
-    {
-      title:
-        'What kind of relationship are you hoping to find?',
-
-      answers: [
-        'A calm and stable connection',
-        'A meaningful long-term relationship',
-        'Someone to share life with',
-        'Real emotional companionship',
+        "A calm and stable connection",
+        "A meaningful long-term relationship",
+        "Someone to share life with",
+        "Real emotional companionship",
       ],
     },
   ];
 
   function nextStep() {
-
     if (step < questions.length) {
-
       setStep(step + 1);
-
     } else {
-
       startLoading();
     }
   }
 
   function startLoading() {
-
     setLoading(true);
 
     let current = 0;
 
-    const interval =
-      setInterval(() => {
+    const interval = setInterval(() => {
+      current += 10;
 
-        current += 10;
+      setProgress(current);
 
-        setProgress(current);
+      if (current >= 100) {
+        clearInterval(interval);
 
-        if (current >= 100) {
+        setLoading(false);
 
-          clearInterval(interval);
-
-          setLoading(false);
-
-          setStep(
-            questions.length + 1,
-          );
-        }
-
-      }, 150);
+        setStep(questions.length + 1);
+      }
+    }, 150);
   }
 
   function enterMemberArea() {
+    const incomingParams = new URLSearchParams(window.location.search);
 
-    const incomingParams =
-      new URLSearchParams(
-        window.location.search,
-      );
-
-    const baseUrl =
-      new URL(
-        'https://linked2day.com/index.php?key=5gofmfa1tfewf5ipk72f',
-      );
-
-    incomingParams.forEach(
-      (value, key) => {
-
-        baseUrl.searchParams.set(
-          key,
-          value,
-        );
-      },
+    const baseUrl = new URL(
+      "https://linked2day.com/index.php?key=5gofmfa1tfewf5ipk72f",
     );
 
-    window.location.href =
-      baseUrl.toString();
+    incomingParams.forEach((value, key) => {
+      baseUrl.searchParams.set(key, value);
+    });
+
+    window.location.href = baseUrl.toString();
   }
 
   const topProgress =
-    step <= questions.length
-      ? (step / questions.length) * 100
-      : 100;
+    step <= questions.length ? (step / questions.length) * 100 : 100;
 
   return (
-
-    <main className="
-      min-h-screen
-      bg-[#f7f7f7]
-      text-black
-    ">
-
+    <main className="min-h-screen bg-[#f7f7f7] text-black">
       <Navbar />
 
-      <link
-        rel="stylesheet"
-        href="/legacy/landing.css"
-      />
+      <link rel="stylesheet" href="/legacy/landing.css" />
 
-      <div className="
-        max-w-md
-        mx-auto
-        px-5
-        py-10
-      ">
-
-        <div className="
-          w-full
-          h-2
-          bg-zinc-200
-          rounded-full
-          overflow-hidden
-          mb-6
-        ">
-
+      <div className="mx-auto max-w-md px-5 py-10">
+        <div className="mb-6 h-2 w-full overflow-hidden rounded-full bg-zinc-200">
           <div
-            className="
-              h-full
-              bg-pink-500
-              transition-all
-              duration-300
-            "
-
+            className="h-full bg-pink-500 transition-all duration-300"
             style={{
-              width:
-                `${topProgress}%`,
+              width: `${topProgress}%`,
             }}
           />
-
         </div>
 
-        {
-          step === 0 && (
+        {step === 0 && (
+          <div className="text-center">
+            <img
+              src="/images/man_quiz4.jpeg"
+              alt="Relationship Preview"
+              className="mx-auto mb-4 w-3/4 rounded-2xl object-cover object-top"
+            />
 
-            <div className="
-              text-center
-            ">
+            <h1 className="mb-4 text-2xl leading-5 font-bold">
+              Meet Relationship-Focused Men 💕
+            </h1>
 
-              <img
-                src="/images/man_quiz4.jpeg"
-                alt="Relationship Preview"
+            <p className="text-1xl mb-4 leading-5 text-zinc-600">
+              Discover emotionally mature men who value honesty, companionship,
+              and meaningful long-term relationships.
+            </p>
 
-                className="
-                  w-3/4
-                  mx-auto
-                  rounded-2xl
-                  mb-4
-                  object-cover
-                  object-top
-                "
+            <button
+              onClick={nextStep}
+              className="w-full rounded-2xl bg-pink-500 py-4 text-lg font-bold text-white shadow-lg"
+            >
+              DISCOVER YOUR MATCH →
+            </button>
+          </div>
+        )}
+
+        {step > 0 && step <= questions.length && !loading && (
+          <div>
+            <h2 className="mb-8 text-center text-2xl leading-tight font-bold">
+              {questions[step - 1].title}
+            </h2>
+
+            <div className="space-y-4">
+              {questions[step - 1].answers.map((answer) => (
+                <button
+                  key={answer}
+                  onClick={nextStep}
+                  className="w-full rounded-2xl border-2 border-zinc-200 bg-white px-4 py-4 font-medium text-black hover:bg-pink-50"
+                >
+                  {answer}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {loading && (
+          <div className="py-10 text-center">
+            <p className="mb-6 text-lg">
+              Analyzing your compatibility profile...
+            </p>
+
+            <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-200">
+              <div
+                className="h-full bg-pink-500 transition-all"
+                style={{
+                  width: `${progress}%`,
+                }}
               />
-
-              <h1 className="
-                text-2xl
-                font-bold
-                mb-4
-                leading-5
-              ">
-                Meet Relationship-Focused Men 💕
-              </h1>
-
-              <p className="
-                text-1xl
-                text-zinc-600
-                mb-4
-                leading-5
-              ">
-                Discover emotionally mature
-                men who value honesty,
-                companionship,
-                and meaningful long-term
-                relationships.
-              </p>
-
-              <button
-                onClick={nextStep}
-
-                className="
-                  w-full
-                  py-4
-                  rounded-2xl
-                  bg-pink-500
-                  text-white
-                  font-bold
-                  text-lg
-                  shadow-lg
-                "
-              >
-                DISCOVER YOUR MATCH →
-              </button>
-
             </div>
-          )
-        }
+          </div>
+        )}
 
-        {
-          step > 0 &&
-          step <= questions.length &&
-          !loading && (
+        {step === questions.length + 1 && (
+          <div className="py-6 text-center">
+            <p className="mb-8 text-lg leading-8">
+              <strong>Your matches are ready 💕</strong>
+              <br />
+              <br />
+              Based on your answers, you may be compatible with emotionally
+              mature men who value meaningful communication, companionship, and
+              lasting relationships.
+              <br />
+              <br />
+              Click below to discover compatible men who match your relationship
+              energy 👇
+            </p>
 
-            <div>
+            <button
+              onClick={enterMemberArea}
+              className="w-full rounded-2xl bg-pink-600 py-5 text-lg font-extrabold text-white shadow-xl"
+            >
+              SEE YOUR MATCH →
+            </button>
 
-              <h2 className="
-                text-2xl
-                font-bold
-                mb-8
-                text-center
-                leading-tight
-              ">
-                {
-                  questions[
-                    step - 1
-                  ].title
-                }
-              </h2>
-
-              <div className="
-                space-y-4
-              ">
-
-                {
-                  questions[
-                    step - 1
-                  ].answers.map(
-                    (answer) => (
-
-                      <button
-                        key={answer}
-
-                        onClick={
-                          nextStep
-                        }
-
-                        className="
-                          w-full
-                          bg-white
-                          border-2
-                          border-zinc-200
-                          rounded-2xl
-                          py-4
-                          px-4
-                          text-black
-                          font-medium
-                          hover:bg-pink-50
-                        "
-                      >
-                        {answer}
-                      </button>
-                    ),
-                  )
-                }
-
-              </div>
-
-            </div>
-          )
-        }
-
-        {
-          loading && (
-
-            <div className="
-              text-center
-              py-10
-            ">
-
-              <p className="
-                text-lg
-                mb-6
-              ">
-                Analyzing your
-                compatibility profile...
-              </p>
-
-              <div className="
-                w-full
-                h-2
-                bg-zinc-200
-                rounded-full
-                overflow-hidden
-              ">
-
-                <div
-                  className="
-                    h-full
-                    bg-pink-500
-                    transition-all
-                  "
-
-                  style={{
-                    width:
-                      `${progress}%`,
-                  }}
-                />
-
-              </div>
-
-            </div>
-          )
-        }
-
-        {
-          step ===
-            questions.length + 1 && (
-
-            <div className="
-              text-center
-              py-6
-            ">
-
-              <p className="
-                text-lg
-                leading-8
-                mb-8
-              ">
-
-                <strong>
-                  Your matches are ready 💕
-                </strong>
-
-                <br />
-                <br />
-
-                Based on your answers,
-                you may be compatible
-                with emotionally mature
-                men who value meaningful
-                communication,
-                companionship,
-                and lasting relationships.
-
-                <br />
-                <br />
-
-                Click below to discover
-                compatible men who match
-                your relationship energy 👇
-
-              </p>
-
-              <button
-                onClick={
-                  enterMemberArea
-                }
-
-                className="
-                  w-full
-                  py-5
-                  rounded-2xl
-                  bg-pink-600
-                  text-white
-                  font-extrabold
-                  text-lg
-                  shadow-xl
-                "
-              >
-                SEE YOUR MATCH →
-              </button>
-
-              <p className="
-                mt-6
-                text-sm
-                text-zinc-500
-                leading-6
-              ">
-                ✔ Private Access
-                {' '}•{' '}
-                ✔ Verified Profiles
-                {' '}•{' '}
-                ✔ Easy To Start
-              </p>
-
-            </div>
-          )
-        }
-
+            <p className="mt-6 text-sm leading-6 text-zinc-500">
+              ✔ Private Access • ✔ Verified Profiles • ✔ Easy To Start
+            </p>
+          </div>
+        )}
       </div>
 
-      <footer className="
-        max-w-md
-        mx-auto
-        mb-10
-        px-6
-        py-6
-        text-center
-        text-sm
-        text-zinc-500
-      ">
+      <footer className="mx-auto mb-10 max-w-md px-6 py-6 text-center text-sm text-zinc-500">
+        <div className="mb-4 flex justify-center gap-6">
+          <Link href="/terms">Terms of Service</Link>
 
-        <div className="
-          flex
-          justify-center
-          gap-6
-          mb-4
-        ">
-
-          <Link href="/terms">
-            Terms of Service
-          </Link>
-
-          <Link href="/privacy">
-            Privacy Policy
-          </Link>
-
+          <Link href="/privacy">Privacy Policy</Link>
         </div>
 
-        <p className="mb-2">
-          Users 18+ only.
-        </p>
+        <p className="mb-2">Users 18+ only.</p>
 
         <p>
-          © 2026 MutualPathways.
-          All Rights Reserved.
-          Owned and operated by
-          True Blue Digital Media LTD
+          © 2026 MutualPathways. All Rights Reserved. Owned and operated by True
+          Blue Digital Media LTD
         </p>
-
       </footer>
 
-      <Script
-        src="/legacy/script.js"
-        strategy="afterInteractive"
-      />
-
+      <Script src="/legacy/script.js" strategy="afterInteractive" />
     </main>
   );
 }

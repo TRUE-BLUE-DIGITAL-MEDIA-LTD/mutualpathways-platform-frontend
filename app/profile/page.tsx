@@ -1,233 +1,162 @@
-'use client';
+"use client";
 
-import { API_URL }
-  from '../../lib/api';
+import { API_URL } from "../../lib/api";
 
+import { useEffect, useState } from "react";
 
-import {
-  useEffect,
-  useState,
-} from 'react';
+import axios from "axios";
 
-import axios from 'axios';
+import Navbar from "../../components/Navbar";
 
-import Navbar
-  from '../../components/Navbar';
-
-import { uploadImage as uploadImageToGcs } from '../../lib/upload/uploadImage';
+import { uploadImage as uploadImageToGcs } from "../../lib/upload/uploadImage";
 
 export default function ProfilePage() {
+  const [user, setUser] = useState<any>(null);
 
-  const [user, setUser] =
-    useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  const [uploading, setUploading] =
-    useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const [uploadProgress, setUploadProgress] =
-    useState(0);
+  const [imagePreview, setImagePreview] = useState<string>("");
 
-  const [imagePreview, setImagePreview] =
-    useState<string>('');
+  const [form, setForm] = useState<any>({
+    imageKey: "",
 
-  const [form, setForm] =
-    useState<any>({
+    displayName: "",
 
-      imageKey: '',
+    bio: "",
 
-      displayName: '',
+    age: null,
 
-      bio: '',
+    gender: "",
 
-      age: null,
+    country: "",
 
-      gender: '',
+    region: "",
 
-      country: '',
+    city: "",
 
-      region: '',
+    occupation: "",
 
-      city: '',
+    education: "",
 
-      occupation: '',
+    relationshipGoals: "",
 
-      education: '',
+    website: "",
 
-      relationshipGoals: '',
+    instagram: "",
 
-      website: '',
+    interests: [],
 
-      instagram: '',
+    languages: [],
 
-      interests: [],
+    showAge: true,
 
-      languages: [],
+    showLocation: true,
 
-      showAge: true,
+    showInterests: true,
 
-      showLocation: true,
+    showEducation: true,
 
-      showInterests: true,
+    showOccupation: true,
 
-      showEducation: true,
+    showLanguages: true,
 
-      showOccupation: true,
+    showSocials: false,
+  });
 
-      showLanguages: true,
+  const [interestInput, setInterestInput] = useState("");
 
-      showSocials: false,
-    });
-
-  const [interestInput, setInterestInput] =
-    useState('');
-
-  const [languageInput, setLanguageInput] =
-    useState('');
+  const [languageInput, setLanguageInput] = useState("");
 
   async function fetchMe() {
-
     try {
+      const token = localStorage.getItem("token");
 
-      const token =
-        localStorage.getItem(
-          'token',
-        );
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
 
-      const response =
-        await axios.get(
-          `${API_URL}/auth/me`,
-          {
-            headers: {
-              Authorization:
-                `Bearer ${token}`,
-            },
-          },
-        );
+      const [meResponse, profileResponse] = await Promise.all([
+        axios.get(`${API_URL}/auth/me`, { headers }),
+        axios.get(`${API_URL}/profile/me`, { headers }),
+      ]);
 
-      const userData =
-        response.data.user;
+      const userData = meResponse.data.user;
 
       setUser(userData);
 
       const profile = {
-
-        ...(userData?.profile || {}),
+        ...(profileResponse.data || {}),
       };
 
-      setImagePreview(
-        profile.imageUrl ||
-        userData?.imageUrl ||
-        '',
-      );
+      setImagePreview(profile.imageUrl || "");
 
       setForm((prev: any) => ({
+        ...prev,
 
-  ...prev,
+        imageKey: profile.imageKey ?? prev.imageKey,
 
-  imageKey:
-    profile.imageKey ?? prev.imageKey,
+        displayName: profile.displayName ?? prev.displayName,
 
-  displayName:
-    profile.displayName ?? prev.displayName,
+        bio: profile.bio ?? prev.bio,
 
-  bio:
-    profile.bio ?? prev.bio,
+        age: profile.age ?? prev.age,
 
-  age:
-    profile.age ?? prev.age,
+        gender: profile.gender ?? prev.gender,
 
-  gender:
-    profile.gender ?? prev.gender,
+        country: profile.country ?? prev.country,
 
-  country:
-    profile.country ?? prev.country,
+        region: profile.region ?? prev.region,
 
-  region:
-    profile.region ?? prev.region,
+        city: profile.city ?? prev.city,
 
-  city:
-    profile.city ?? prev.city,
+        occupation: profile.occupation ?? prev.occupation,
 
-  occupation:
-    profile.occupation ?? prev.occupation,
+        education: profile.education ?? prev.education,
 
-  education:
-    profile.education ?? prev.education,
+        relationshipGoals: profile.relationshipGoals ?? prev.relationshipGoals,
 
-  relationshipGoals:
-    profile.relationshipGoals ??
-    prev.relationshipGoals,
+        website: profile.website ?? prev.website,
 
-  website:
-    profile.website ?? prev.website,
+        instagram: profile.instagram ?? prev.instagram,
 
-  instagram:
-    profile.instagram ?? prev.instagram,
+        interests: profile.interests ?? prev.interests,
 
-  interests:
-    profile.interests ?? prev.interests,
+        languages: profile.languages ?? prev.languages,
 
-  languages:
-    profile.languages ?? prev.languages,
+        showAge: profile.showAge ?? prev.showAge,
 
-  showAge:
-    profile.showAge ?? prev.showAge,
+        showLocation: profile.showLocation ?? prev.showLocation,
 
-  showLocation:
-    profile.showLocation ??
-    prev.showLocation,
+        showInterests: profile.showInterests ?? prev.showInterests,
 
-  showInterests:
-    profile.showInterests ??
-    prev.showInterests,
+        showEducation: profile.showEducation ?? prev.showEducation,
 
-  showEducation:
-    profile.showEducation ??
-    prev.showEducation,
+        showOccupation: profile.showOccupation ?? prev.showOccupation,
 
-  showOccupation:
-    profile.showOccupation ??
-    prev.showOccupation,
+        showLanguages: profile.showLanguages ?? prev.showLanguages,
 
-  showLanguages:
-    profile.showLanguages ??
-    prev.showLanguages,
-
-  showSocials:
-    profile.showSocials ??
-    prev.showSocials,
-}));
-      
+        showSocials: profile.showSocials ?? prev.showSocials,
+      }));
     } catch (error) {
-
       console.log(error);
     }
   }
 
   async function saveProfile() {
-
     try {
-
       setLoading(true);
 
-      const token =
-        localStorage.getItem(
-          'token',
-        );
+      const token = localStorage.getItem("token");
 
-      const res = await axios.put(
-        `${API_URL}/profile/me`,
-        form,
-        {
-          headers: {
-            Authorization:
-              `Bearer ${token}`,
-          },
+      const res = await axios.put(`${API_URL}/profile/me`, form, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+      });
 
       if (res.data?.imageUrl) {
         setImagePreview(res.data.imageUrl);
@@ -235,20 +164,12 @@ export default function ProfilePage() {
 
       await fetchMe();
 
-      alert(
-        'Profile updated successfully',
-      );
-
+      alert("Profile updated successfully");
     } catch (error) {
-
       console.log(error);
 
-      alert(
-        'Failed to update profile',
-      );
-
+      alert("Failed to update profile");
     } finally {
-
       setLoading(false);
     }
   }
@@ -261,32 +182,27 @@ export default function ProfilePage() {
     try {
       setUploading(true);
       setUploadProgress(0);
-      const { key } = await uploadImageToGcs(file, 'profile', {
+      const { key } = await uploadImageToGcs(file, "profile", {
         onProgress: setUploadProgress,
       });
       setForm((prev: any) => ({ ...prev, imageKey: key }));
       setImagePreview(URL.createObjectURL(file));
     } catch (err: any) {
-      alert(err?.message || 'Image upload failed');
+      alert(err?.message || "Image upload failed");
     } finally {
       setUploading(false);
     }
   }
 
   function getImageUrl() {
-    if (!imagePreview || imagePreview === 'null') {
-      return 'https://placehold.co/400x400/18181b/ffffff?text=Profile';
+    if (!imagePreview || imagePreview === "null") {
+      return "https://placehold.co/400x400/18181b/ffffff?text=Profile";
     }
     return imagePreview;
   }
 
-  function updateField(
-    key: string,
-    value: any,
-  ) {
-
+  function updateField(key: string, value: any) {
     setForm((prev: any) => ({
-
       ...prev,
 
       [key]: value,
@@ -294,73 +210,41 @@ export default function ProfilePage() {
   }
 
   function addInterest() {
-
-    if (
-      !interestInput.trim()
-    ) {
+    if (!interestInput.trim()) {
       return;
     }
 
-    updateField(
-      'interests',
-      [
-        ...form.interests,
-        interestInput.trim(),
-      ],
-    );
+    updateField("interests", [...form.interests, interestInput.trim()]);
 
-    setInterestInput('');
+    setInterestInput("");
   }
 
-  function removeInterest(
-    value: string,
-  ) {
-
+  function removeInterest(value: string) {
     updateField(
-      'interests',
-      form.interests.filter(
-        (item: string) =>
-          item !== value,
-      ),
+      "interests",
+      form.interests.filter((item: string) => item !== value),
     );
   }
 
   function addLanguage() {
-
-    if (
-      !languageInput.trim()
-    ) {
+    if (!languageInput.trim()) {
       return;
     }
 
-    updateField(
-      'languages',
-      [
-        ...form.languages,
-        languageInput.trim(),
-      ],
-    );
+    updateField("languages", [...form.languages, languageInput.trim()]);
 
-    setLanguageInput('');
+    setLanguageInput("");
   }
 
-  function removeLanguage(
-    value: string,
-  ) {
-
+  function removeLanguage(value: string) {
     updateField(
-      'languages',
-      form.languages.filter(
-        (item: string) =>
-          item !== value,
-      ),
+      "languages",
+      form.languages.filter((item: string) => item !== value),
     );
   }
 
   useEffect(() => {
-
     fetchMe();
-
   }, []);
 
   if (!user) {
@@ -368,107 +252,39 @@ export default function ProfilePage() {
   }
 
   return (
-
-    <main className="
-      min-h-screen
-      bg-black
-      text-white
-    ">
-
+    <main className="min-h-screen bg-black text-white">
       <Navbar />
 
-      <div className="
-        max-w-5xl
-        mx-auto
-        px-4
-        sm:px-6
-        py-6
-      ">
-
-        <div className="
-          bg-zinc-900
-          rounded-3xl
-          border
-          border-zinc-800
-          p-5
-          sm:p-8
-        ">
-
+      <div className="mx-auto max-w-5xl px-4 py-6 sm:px-6">
+        <div className="rounded-3xl border border-zinc-800 bg-zinc-900 p-5 sm:p-8">
           {/* HEADER */}
 
-          <div className="
-            flex
-            flex-col
-            items-center
-            text-center
-            mb-10
-          ">
-
+          <div className="mb-10 flex flex-col items-center text-center">
             <img
               src={getImageUrl()}
               alt="Profile"
-
-              className="
-                w-32
-                h-32
-                sm:w-40
-                sm:h-40
-                rounded-full
-                object-cover
-                object-top
-                border
-                border-zinc-700
-                mb-5
-              "
+              className="mb-5 h-32 w-32 rounded-full border border-zinc-700 object-cover object-top sm:h-40 sm:w-40"
             />
 
-            <h1 className="
-              text-3xl
-              sm:text-4xl
-              font-bold
-              mb-2
-            ">
-              {
-  form.displayName ||
-  user.username
-}
+            <h1 className="mb-2 text-3xl font-bold sm:text-4xl">
+              {form.displayName || user.username}
             </h1>
 
-            <p className="
-              text-zinc-400
-            ">
-              {user.email}
-            </p>
-
+            <p className="text-zinc-400">{user.email}</p>
           </div>
 
           {/* IMAGE */}
 
-          <div className="
-            mb-8
-          ">
-
-            <label className="
-              block
-              text-sm
-              text-zinc-400
-              mb-3
-            ">
+          <div className="mb-8">
+            <label className="mb-3 block text-sm text-zinc-400">
               Profile Image
             </label>
 
             <input
               type="file"
-
               accept="image/*"
-
               onChange={uploadImage}
-
-              className="
-                w-full
-                text-sm
-                text-zinc-300
-              "
+              className="w-full text-sm text-zinc-300"
             />
 
             {uploading && (
@@ -479,548 +295,243 @@ export default function ProfilePage() {
                     style={{ width: `${uploadProgress}%` }}
                   />
                 </div>
-                <p className="mt-1 text-xs text-zinc-400">Uploading… {uploadProgress}%</p>
+                <p className="mt-1 text-xs text-zinc-400">
+                  Uploading… {uploadProgress}%
+                </p>
               </div>
             )}
-
           </div>
 
           {/* FORM */}
 
-          <div className="
-            grid
-            grid-cols-1
-            md:grid-cols-2
-            gap-5
-          ">
-
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
             <Input
               label="Display Name"
               value={form.displayName}
-              onChange={(v) =>
-                updateField(
-                  'displayName',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("displayName", v)}
             />
 
             <Input
               label="Gender"
               value={form.gender}
-              onChange={(v) =>
-                updateField(
-                  'gender',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("gender", v)}
             />
 
             <Input
               label="Age"
               type="number"
-              value={form.age ?? ''}
-              onChange={(v) =>
-                updateField(
-                  'age',
-                  v === ''
-                    ? null
-                    : Number(v),
-                )
-              }
+              value={form.age ?? ""}
+              onChange={(v) => updateField("age", v === "" ? null : Number(v))}
             />
 
             <Input
               label="Relationship Goals"
               value={form.relationshipGoals}
-              onChange={(v) =>
-                updateField(
-                  'relationshipGoals',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("relationshipGoals", v)}
             />
 
             <Input
               label="Country"
               value={form.country}
-              onChange={(v) =>
-                updateField(
-                  'country',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("country", v)}
             />
 
             <Input
               label="Region"
               value={form.region}
-              onChange={(v) =>
-                updateField(
-                  'region',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("region", v)}
             />
 
             <Input
               label="City"
               value={form.city}
-              onChange={(v) =>
-                updateField(
-                  'city',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("city", v)}
             />
 
             <Input
               label="Occupation"
               value={form.occupation}
-              onChange={(v) =>
-                updateField(
-                  'occupation',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("occupation", v)}
             />
 
             <Input
               label="Education"
               value={form.education}
-              onChange={(v) =>
-                updateField(
-                  'education',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("education", v)}
             />
 
             <Input
               label="Website"
               value={form.website}
-              onChange={(v) =>
-                updateField(
-                  'website',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("website", v)}
             />
 
             <Input
               label="Instagram"
               value={form.instagram}
-              onChange={(v) =>
-                updateField(
-                  'instagram',
-                  v,
-                )
-              }
+              onChange={(v) => updateField("instagram", v)}
             />
-
           </div>
 
           {/* BIO */}
 
-          <div className="
-            mt-6
-          ">
-
-            <label className="
-              block
-              text-sm
-              text-zinc-400
-              mb-3
-            ">
-              Bio
-            </label>
+          <div className="mt-6">
+            <label className="mb-3 block text-sm text-zinc-400">Bio</label>
 
             <textarea
               value={form.bio}
-
-              onChange={(e) =>
-                updateField(
-                  'bio',
-                  e.target.value,
-                )
-              }
-
+              onChange={(e) => updateField("bio", e.target.value)}
               rows={5}
-
-              className="
-                w-full
-                bg-zinc-800
-                border
-                border-zinc-700
-                rounded-2xl
-                p-4
-                outline-none
-              "
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 p-4 outline-none"
             />
-
           </div>
 
           {/* INTERESTS */}
 
-          <div className="
-            mt-8
-          ">
-
-            <label className="
-              block
-              text-sm
-              text-zinc-400
-              mb-3
-            ">
+          <div className="mt-8">
+            <label className="mb-3 block text-sm text-zinc-400">
               Interests
             </label>
 
-            <div className="
-              flex
-              gap-3
-              mb-4
-            ">
-
+            <div className="mb-4 flex gap-3">
               <input
                 value={interestInput}
-
-                onChange={(e) =>
-                  setInterestInput(
-                    e.target.value,
-                  )
-                }
-
-                className="
-                  flex-1
-                  bg-zinc-800
-                  border
-                  border-zinc-700
-                  rounded-2xl
-                  px-4
-                  py-3
-                  outline-none
-                "
+                onChange={(e) => setInterestInput(e.target.value)}
+                className="flex-1 rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none"
               />
 
               <button
                 onClick={addInterest}
-
-                className="
-                  px-5
-                  rounded-2xl
-                  bg-white
-                  text-black
-                  font-bold
-                "
+                className="rounded-2xl bg-white px-5 font-bold text-black"
               >
                 Add
               </button>
-
             </div>
 
-            <div className="
-              flex
-              flex-wrap
-              gap-2
-            ">
-
-              {
-                form.interests.map(
-                  (
-                    interest: string,
-                  ) => (
-
-                    <button
-                      key={interest}
-
-                      onClick={() =>
-                        removeInterest(
-                          interest,
-                        )
-                      }
-
-                      className="
-                        px-4
-                        py-2
-                        rounded-full
-                        bg-zinc-800
-                        border
-                        border-zinc-700
-                      "
-                    >
-                      {interest} ✕
-                    </button>
-                  ),
-                )
-              }
-
+            <div className="flex flex-wrap gap-2">
+              {form.interests.map((interest: string) => (
+                <button
+                  key={interest}
+                  onClick={() => removeInterest(interest)}
+                  className="rounded-full border border-zinc-700 bg-zinc-800 px-4 py-2"
+                >
+                  {interest} ✕
+                </button>
+              ))}
             </div>
-
           </div>
 
           {/* LANGUAGES */}
 
-          <div className="
-            mt-8
-          ">
-
-            <label className="
-              block
-              text-sm
-              text-zinc-400
-              mb-3
-            ">
+          <div className="mt-8">
+            <label className="mb-3 block text-sm text-zinc-400">
               Languages
             </label>
 
-            <div className="
-              flex
-              gap-3
-              mb-4
-            ">
-
+            <div className="mb-4 flex gap-3">
               <input
                 value={languageInput}
-
-                onChange={(e) =>
-                  setLanguageInput(
-                    e.target.value,
-                  )
-                }
-
-                className="
-                  flex-1
-                  bg-zinc-800
-                  border
-                  border-zinc-700
-                  rounded-2xl
-                  px-4
-                  py-3
-                  outline-none
-                "
+                onChange={(e) => setLanguageInput(e.target.value)}
+                className="flex-1 rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none"
               />
 
               <button
                 onClick={addLanguage}
-
-                className="
-                  px-5
-                  rounded-2xl
-                  bg-white
-                  text-black
-                  font-bold
-                "
+                className="rounded-2xl bg-white px-5 font-bold text-black"
               >
                 Add
               </button>
-
             </div>
 
-            <div className="
-              flex
-              flex-wrap
-              gap-2
-            ">
-
-              {
-                form.languages.map(
-                  (
-                    language: string,
-                  ) => (
-
-                    <button
-                      key={language}
-
-                      onClick={() =>
-                        removeLanguage(
-                          language,
-                        )
-                      }
-
-                      className="
-                        px-4
-                        py-2
-                        rounded-full
-                        bg-zinc-800
-                        border
-                        border-zinc-700
-                      "
-                    >
-                      {language} ✕
-                    </button>
-                  ),
-                )
-              }
-
+            <div className="flex flex-wrap gap-2">
+              {form.languages.map((language: string) => (
+                <button
+                  key={language}
+                  onClick={() => removeLanguage(language)}
+                  className="rounded-full border border-zinc-700 bg-zinc-800 px-4 py-2"
+                >
+                  {language} ✕
+                </button>
+              ))}
             </div>
-
           </div>
 
           {/* PRIVACY */}
 
-          <div className="
-            mt-10
-            grid
-            grid-cols-1
-            sm:grid-cols-2
-            gap-4
-          ">
-
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Toggle
               label="Show Age"
               checked={form.showAge}
-              onChange={() =>
-                updateField(
-                  'showAge',
-                  !form.showAge,
-                )
-              }
+              onChange={() => updateField("showAge", !form.showAge)}
             />
 
             <Toggle
               label="Show Location"
               checked={form.showLocation}
-              onChange={() =>
-                updateField(
-                  'showLocation',
-                  !form.showLocation,
-                )
-              }
+              onChange={() => updateField("showLocation", !form.showLocation)}
             />
 
             <Toggle
               label="Show Interests"
               checked={form.showInterests}
-              onChange={() =>
-                updateField(
-                  'showInterests',
-                  !form.showInterests,
-                )
-              }
+              onChange={() => updateField("showInterests", !form.showInterests)}
             />
 
             <Toggle
               label="Show Education"
               checked={form.showEducation}
-              onChange={() =>
-                updateField(
-                  'showEducation',
-                  !form.showEducation,
-                )
-              }
+              onChange={() => updateField("showEducation", !form.showEducation)}
             />
 
             <Toggle
               label="Show Occupation"
               checked={form.showOccupation}
               onChange={() =>
-                updateField(
-                  'showOccupation',
-                  !form.showOccupation,
-                )
+                updateField("showOccupation", !form.showOccupation)
               }
             />
 
             <Toggle
               label="Show Languages"
               checked={form.showLanguages}
-              onChange={() =>
-                updateField(
-                  'showLanguages',
-                  !form.showLanguages,
-                )
-              }
+              onChange={() => updateField("showLanguages", !form.showLanguages)}
             />
 
             <Toggle
               label="Show Socials"
               checked={form.showSocials}
-              onChange={() =>
-                updateField(
-                  'showSocials',
-                  !form.showSocials,
-                )
-              }
+              onChange={() => updateField("showSocials", !form.showSocials)}
             />
-
           </div>
 
-{/* SECURITY */}
+          {/* SECURITY */}
 
-<div className="
-  mt-10
-  border-t
-  border-zinc-800
-  pt-8
-">
+          <div className="mt-10 border-t border-zinc-800 pt-8">
+            <h2 className="mb-5 text-2xl font-bold">Security</h2>
 
-  <h2 className="
-    text-2xl
-    font-bold
-    mb-5
-  ">
-    Security
-  </h2>
-
-  <a
-    href="/change-password"
-
-    className="
-      inline-flex
-      items-center
-      justify-center
-      bg-zinc-800
-      hover:bg-zinc-700
-      border
-      border-zinc-700
-      transition
-      rounded-2xl
-      px-6
-      py-4
-      font-semibold
-    "
-  >
-    Change Password
-  </a>
-
-</div>
+            <a
+              href="/change-password"
+              className="inline-flex items-center justify-center rounded-2xl border border-zinc-700 bg-zinc-800 px-6 py-4 font-semibold transition hover:bg-zinc-700"
+            >
+              Change Password
+            </a>
+          </div>
 
           {/* SAVE */}
 
           <button
             onClick={saveProfile}
-
-            disabled={
-              loading ||
-              uploading
-            }
-
-            className="
-              w-full
-              mt-10
-              bg-white
-              text-black
-              rounded-2xl
-              py-4
-              font-bold
-              text-lg
-              hover:bg-zinc-200
-              transition
-            "
+            disabled={loading || uploading}
+            className="mt-10 w-full rounded-2xl bg-white py-4 text-lg font-bold text-black transition hover:bg-zinc-200"
           >
-            {
-              uploading
-                ? 'Uploading...'
-                : loading
-                  ? 'Saving...'
-                  : 'Save Profile'
-            }
+            {uploading
+              ? "Uploading..."
+              : loading
+                ? "Saving..."
+                : "Save Profile"}
           </button>
-
         </div>
-
       </div>
-
     </main>
   );
 }
@@ -1029,93 +540,40 @@ function Input({
   label,
   value,
   onChange,
-  type = 'text',
+  type = "text",
 }: {
   label: string;
   value: string | number;
   onChange: (value: string) => void;
   type?: string;
 }) {
-
   return (
-
     <div>
-
-      <label className="
-        block
-        text-sm
-        text-zinc-400
-        mb-2
-      ">
-        {label}
-      </label>
+      <label className="mb-2 block text-sm text-zinc-400">{label}</label>
 
       <input
         type={type}
-
         value={value}
-
-        onChange={(e) =>
-          onChange(
-            e.target.value,
-          )
-        }
-
-        className="
-          w-full
-          bg-zinc-800
-          border
-          border-zinc-700
-          rounded-2xl
-          px-4
-          py-3
-          outline-none
-        "
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-3 outline-none"
       />
-
     </div>
   );
 }
 
-function Toggle({
-  label,
-  checked,
-  onChange,
-}: any) {
-
+function Toggle({ label, checked, onChange }: any) {
   return (
-
     <button
       onClick={onChange}
-
-      className={`
-        flex
-        items-center
-        justify-between
-        rounded-2xl
-        p-4
-        border
-        transition
-        ${
-          checked
-            ? 'bg-white text-black border-white'
-            : 'bg-zinc-900 border-zinc-700 text-white'
-        }
-      `}
+      className={`flex items-center justify-between rounded-2xl border p-4 transition ${
+        checked
+          ? "border-white bg-white text-black"
+          : "border-zinc-700 bg-zinc-900 text-white"
+      } `}
     >
+      <span>{label}</span>
 
-      <span>
-        {label}
-      </span>
-
-      <span>
-        {
-          checked
-            ? 'ON'
-            : 'OFF'
-        }
-      </span>
-
+      <span>{checked ? "ON" : "OFF"}</span>
     </button>
   );
 }
