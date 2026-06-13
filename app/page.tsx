@@ -412,6 +412,46 @@ export default function LandingPage() {
             True Blue Digital Media LTD.
           </p>
 
+          {/* OPT-IN / OPT-OUT */}
+
+          <div className="
+            flex
+            items-center
+            justify-center
+            gap-3
+            mt-4
+            text-xs
+            text-zinc-500
+          ">
+
+            <Link
+              href="/opt-in"
+
+              className="
+                hover:text-zinc-300
+                transition
+              "
+            >
+              Opt In
+            </Link>
+
+            <span className="text-zinc-700">
+              ·
+            </span>
+
+            <Link
+              href="/opt-out"
+
+              className="
+                hover:text-zinc-300
+                transition
+              "
+            >
+              Opt Out
+            </Link>
+
+          </div>
+
         </div>
 
       </footer>

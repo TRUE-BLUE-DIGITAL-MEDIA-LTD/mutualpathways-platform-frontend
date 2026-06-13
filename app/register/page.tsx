@@ -29,6 +29,9 @@ export default function RegisterPage() {
   const [loading, setLoading] =
     useState(false);
 
+  const [optIn, setOptIn] =
+    useState(true);
+
   async function register() {
 
     try {
@@ -49,6 +52,23 @@ export default function RegisterPage() {
         'token',
         response.data.accessToken,
       );
+
+      if (optIn) {
+
+        try {
+
+          await axios.post(
+            `${API_URL}/communications/opt-in`,
+            {
+              email,
+            },
+          );
+
+        } catch (optInError) {
+
+          console.log(optInError);
+        }
+      }
 
       window.location.href =
         '/discover';
@@ -250,6 +270,44 @@ export default function RegisterPage() {
                 sm:text-base
               "
             />
+
+            <label className="
+              flex
+              items-start
+              gap-3
+              cursor-pointer
+              select-none
+            ">
+
+              <input
+                type="checkbox"
+
+                checked={optIn}
+
+                onChange={(e) =>
+                  setOptIn(
+                    e.target.checked,
+                  )
+                }
+
+                className="
+                  mt-1
+                  h-4
+                  w-4
+                  accent-white
+                "
+              />
+
+              <span className="
+                text-zinc-400
+                text-sm
+                leading-6
+              ">
+                Keep me updated with news
+                and updates.
+              </span>
+
+            </label>
 
             <button
               onClick={register}
