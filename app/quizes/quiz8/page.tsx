@@ -466,64 +466,7 @@ export default function Quiz8Page() {
 
       {/* FOOTER */}
 
-      <footer className="
-        max-w-md
-        mx-auto
-        px-5
-        pb-10
-      ">
-
-        <div
-          className="
-            rounded-2xl
-            border-2
-            border-zinc-200
-            bg-white/70
-            backdrop-blur
-            p-6
-            text-center
-          "
-        >
-
-          <div className="
-            flex
-            justify-center
-            gap-6
-            mb-4
-            text-sm
-          ">
-
-            <Link href="/terms">
-              Terms of Service
-            </Link>
-
-            <Link href="/privacy">
-              Privacy Policy
-            </Link>
-
-          </div>
-
-          <p className="
-            text-sm
-            text-zinc-600
-            mb-2
-          ">
-            Users 18+ only.
-          </p>
-
-          <p className="
-            text-xs
-            text-zinc-500
-          ">
-            © 2026 MutualPathways.
-            All Rights Reserved.
-            Owned and operated by
-            True Blue Digital Media LTD
-          </p>
-
-        </div>
-
-      </footer>
+      
 
       <Script
         src="/legacy/script.js"

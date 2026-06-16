@@ -18,6 +18,8 @@ import Navbar
 import ChatWindow
   from '../../components/ChatWindow';
 
+import Link from 'next/link';
+
 export default function HomePage() {
 
   const [email, setEmail] =

@@ -26,7 +26,7 @@ export default function PrivacyPage() {
             </p>
 
             <p>
-              <strong>Last Updated:</strong> January 1, 2026
+              <strong>Last Updated:</strong> June 14, 2026
             </p>
 
             <p>
@@ -46,10 +46,19 @@ export default function PrivacyPage() {
             </p>
 
             <p>
-              Company operates as a blog with articles, insights, opinions, and
-              points of view related to building relationships, meaningful
-              connections, friendship, personality matches, and related topics
+              MutualPathways operates an online social and relationship platform
+              designed to help adults build meaningful connections, friendships,
+              companionship, and long-term relationships based on shared
+              interests, compatibility, communication, and personal values
               (collectively, the "Services").
+            </p>
+
+            <p>
+              Through our Services, users may create profiles, discover other
+              members, communicate, express interest in potential matches, and
+              participate in features intended to encourage respectful,
+              authentic, and meaningful interactions and also read in
+              interesting articles in our blog part.
             </p>
 
             <p>
@@ -70,9 +79,10 @@ export default function PrivacyPage() {
             </h3>
 
             <p>
-              Name, email address, company name, phone number, account
-              credentials, communications, and other information you choose to
-              provide.
+              Name, username, email address, account credentials, profile
+              information, photographs, communications with other users,
+              preferences, interests, relationship goals, and other information
+              you voluntarily provide through the Services.
             </p>
 
             <h3 className="mt-8 mb-3 text-2xl font-semibold text-white">
@@ -154,14 +164,26 @@ export default function PrivacyPage() {
             </h2>
 
             <p>
-              We may share information with analytics providers, hosting
-              providers, advertising partners, service providers, affiliates,
-              legal advisors, and authorities where legally required.
+              We may share information with trusted service providers, hosting
+              providers, analytics providers, customer support providers,
+              payment processors (if applicable), legal advisors, and
+              governmental authorities when required by law.
             </p>
 
             <p>
-              Certain advertising-related sharing may qualify as "sale" or
-              "sharing" under CCPA/CPRA definitions.
+              Information may also be shared with other users of the platform
+              through profile features, matching functionality, messaging
+              features, and other services designed to facilitate communication
+              and meaningful connections between members.
+            </p>
+
+            <p>
+              Our Services may contain links, recommendations, advertisements,
+              sponsored content, or referrals to third-party websites,
+              applications, or relationship platforms. When users choose to
+              interact with or visit such third-party services, those providers
+              may collect information in accordance with their own privacy
+              policies and terms.
             </p>
           </div>
 
@@ -218,7 +240,31 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="mb-4 text-3xl font-bold text-white">
-              10. Children's Privacy
+              10. Email Communications
+            </h2>
+
+            <p>
+              Users may choose to subscribe to newsletters, platform updates,
+              promotional messages, and marketing communications. Marketing
+              emails are optional and require user consent.
+            </p>
+
+            <p>
+              Users may unsubscribe from marketing communications at any time by
+              clicking the unsubscribe link included in our emails or by
+              contacting us at: contact@mutual-pathways.com
+            </p>
+
+            <p>
+              Transactional emails related to account security, password resets,
+              account verification, and important service notifications may
+              still be sent when necessary.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="mb-4 text-3xl font-bold text-white">
+              11. Children's Privacy
             </h2>
 
             <p>
@@ -233,7 +279,7 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="mb-4 text-3xl font-bold text-white">
-              11. Changes to This Policy
+              12. Changes to This Policy
             </h2>
 
             <p>We may update this Privacy Policy from time to time.</p>
@@ -246,30 +292,13 @@ export default function PrivacyPage() {
 
           <div>
             <h2 className="mb-4 text-3xl font-bold text-white">
-              12. Contact Information
+              13. Contact Information
             </h2>
 
-            <p>Email: contact@mutualpathways.com</p>
+            <p>Email: contact@mutual-pathways.com</p>
           </div>
         </div>
       </section>
-
-      <footer className="mt-20 border-t border-zinc-800">
-        <div className="mx-auto max-w-7xl px-6 py-10 text-center text-zinc-400">
-          <div className="mb-6 flex justify-center gap-6">
-            <Link href="/terms">Terms of Service</Link>
-
-            <Link href="/privacy">Privacy Policy</Link>
-          </div>
-
-          <p className="mb-2">Users 18+ only.</p>
-
-          <p>
-            © 2026 MutualPathways. All Rights Reserved. Owned and operated by
-            True Blue Digital Media LTD
-          </p>
-        </div>
-      </footer>
     </main>
   );
 }

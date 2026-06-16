@@ -10,6 +10,7 @@ import { usePresence } from "../../hooks/usePresence";
 import ChatList from "./components/ChatList";
 import MessageThread from "./components/MessageThread";
 import MessageInput from "./components/MessageInput";
+import Link from 'next/link';
 
 interface MatchedUser {
   userId: string;

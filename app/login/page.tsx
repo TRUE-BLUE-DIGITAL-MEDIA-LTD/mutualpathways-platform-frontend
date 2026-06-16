@@ -39,111 +39,40 @@ export default function LoginPage() {
   }
 
   return (
-    <main
-      className="
-      min-h-screen
-      bg-black
-      text-white
-    "
-    >
+    <main className="min-h-screen bg-black text-white">
       <Navbar />
 
-      <div
-        className="
-        flex
-        items-center
-        justify-center
-        px-4
-        sm:px-6
-        py-14
-        sm:py-20
-      "
-      >
-        <div
-          className="
-          w-full
-          max-w-md
-          bg-zinc-900
-          border
-          border-zinc-800
-          rounded-3xl
-          p-6
-          sm:p-8
-          shadow-2xl
-        "
-        >
+      <div className="flex items-center justify-center px-4 py-14 sm:px-6 sm:py-20">
+        <div className="w-full max-w-md rounded-3xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl sm:p-8">
           {/* HEADER */}
 
-          <div
-            className="
-            text-center
-            mb-8
-          "
-          >
+          <div className="mb-8 text-center">
             <Link href="/">
               <img
                 src="/images/mt_logo.jpeg"
                 alt="MutualPathways"
-                className="
-                  h-14
-                  sm:h-16
-                  mx-auto
-                  mb-6
-                  object-contain
-                "
+                className="mx-auto mb-6 h-14 object-contain sm:h-16"
               />
             </Link>
 
-            <h1
-              className="
-              text-3xl
-              sm:text-4xl
-              font-bold
-              mb-3
-            "
-            >
+            <h1 className="mb-3 text-3xl font-bold sm:text-4xl">
               Welcome Back
             </h1>
 
-            <p
-              className="
-              text-zinc-400
-              leading-7
-              text-sm
-              sm:text-base
-            "
-            >
+            <p className="text-sm leading-7 text-zinc-400 sm:text-base">
               Continue discovering meaningful connections.
             </p>
           </div>
 
           {/* FORM */}
 
-          <div
-            className="
-            space-y-4
-          "
-          >
+          <div className="space-y-4">
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="
-                w-full
-                bg-zinc-800
-                border
-                border-zinc-700
-                rounded-2xl
-                px-4
-                py-4
-                text-white
-                outline-none
-                focus:border-white
-                transition
-                text-sm
-                sm:text-base
-              "
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-4 text-sm text-white transition outline-none focus:border-white sm:text-base"
             />
 
             <input
@@ -156,52 +85,20 @@ export default function LoginPage() {
                   login();
                 }
               }}
-              className="
-                w-full
-                bg-zinc-800
-                border
-                border-zinc-700
-                rounded-2xl
-                px-4
-                py-4
-                text-white
-                outline-none
-                focus:border-white
-                transition
-                text-sm
-                sm:text-base
-              "
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-4 text-sm text-white transition outline-none focus:border-white sm:text-base"
             />
 
             <button
               onClick={login}
               disabled={loading}
-              className="
-                w-full
-                bg-white
-                hover:bg-zinc-200
-                transition
-                text-black
-                rounded-2xl
-                py-4
-                font-bold
-                text-base
-                sm:text-lg
-                disabled:opacity-60
-              "
+              className="w-full rounded-2xl bg-white py-4 text-base font-bold text-black transition hover:bg-zinc-200 disabled:opacity-60 sm:text-lg"
             >
               {loading ? "Loading..." : "Login"}
             </button>
 
             <Link
               href="/forgot-password"
-              className="
-    block
-    text-center
-    mt-4
-    text-zinc-400
-    hover:text-white
-  "
+              className="mt-4 block text-center text-zinc-400 hover:text-white"
             >
               Forgot Password?
             </Link>
@@ -209,23 +106,11 @@ export default function LoginPage() {
 
           {/* FOOTER */}
 
-          <p
-            className="
-            mt-8
-            text-center
-            text-zinc-500
-            text-sm
-            sm:text-base
-          "
-          >
+          <p className="mt-8 text-center text-sm text-zinc-500 sm:text-base">
             Don’t have an account?{" "}
             <Link
               href="/register"
-              className="
-                text-white
-                font-semibold
-                hover:underline
-              "
+              className="font-semibold text-white hover:underline"
             >
               Register
             </Link>

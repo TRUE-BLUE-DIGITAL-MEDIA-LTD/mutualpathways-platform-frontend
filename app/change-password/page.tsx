@@ -15,6 +15,8 @@ import axios from 'axios';
 import Navbar
   from '../../components/Navbar';
 
+import Link from 'next/link';
+
 export default function ChangePasswordPage() {
 
   const [
@@ -43,8 +45,8 @@ export default function ChangePasswordPage() {
   ] = useState('');
 
   async function handleSubmit(
-    e: FormEvent<HTMLFormElement>,
-  ) {
+  e: React.FormEvent<HTMLFormElement>,
+) {
 
     e.preventDefault();
 

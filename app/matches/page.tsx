@@ -11,6 +11,8 @@ import {
 
 import axios from 'axios';
 
+import Link from 'next/link';
+
 import Navbar
   from '../../components/Navbar';
 
@@ -273,6 +275,8 @@ export default function MatchesPage() {
         }
 
       </div>
+
+
 
     </main>
   );

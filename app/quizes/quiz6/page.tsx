@@ -438,53 +438,7 @@ export default function Quiz6Page() {
 
       {/* FOOTER */}
 
-      <footer className="
-        relative
-        z-10
-        max-w-md
-        mx-auto
-        mb-10
-        px-6
-        py-5
-        rounded-2xl
-        bg-white/10
-        backdrop-blur-xl
-        border
-        border-white/15
-        text-center
-        text-sm
-        text-white/70
-      ">
-
-        <div className="
-          flex
-          justify-center
-          gap-6
-          mb-4
-        ">
-
-          <Link href="/terms">
-            Terms of Service
-          </Link>
-
-          <Link href="/privacy">
-            Privacy Policy
-          </Link>
-
-        </div>
-
-        <p className="mb-2">
-          Users 18+ only.
-        </p>
-
-        <p className="text-xs">
-          © 2026 MutualPathways.
-          All Rights Reserved.
-          Owned and operated by
-          True Blue Digital Media LTD
-        </p>
-
-      </footer>
+      
 
       <Script
         src="/legacy/script.js"

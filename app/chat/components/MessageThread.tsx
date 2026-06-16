@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { ChatMessage } from '../../../lib/chat/types';
-import { dayLabel } from '../../../lib/chat/grouping';
-import MessageBubble from './MessageBubble';
-import TypingIndicator from './TypingIndicator';
+import { useEffect, useRef, useState } from "react";
+import { ChatMessage } from "../../../lib/chat/types";
+import { dayLabel } from "../../../lib/chat/grouping";
+import MessageBubble from "./MessageBubble";
+import TypingIndicator from "./TypingIndicator";
 
 export default function MessageThread({
   messages,
@@ -34,7 +34,7 @@ export default function MessageThread({
   useEffect(() => {
     if (messages.length > lastCountRef.current) {
       if (isAtBottom()) {
-        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
       } else {
         setShowNewPill(true);
       }
@@ -54,11 +54,11 @@ export default function MessageThread({
   }
 
   function jumpToBottom() {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
     setShowNewPill(false);
   }
 
-  let lastLabel = '';
+  let lastLabel = "";
 
   return (
     <div className="relative flex-1 overflow-hidden">

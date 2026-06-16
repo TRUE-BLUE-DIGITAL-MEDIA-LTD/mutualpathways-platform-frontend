@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import axios from 'axios';
+import axios from "axios";
 import {
   createContext,
   useCallback,
@@ -9,14 +9,14 @@ import {
   useReducer,
   useRef,
   ReactNode,
-} from 'react';
-import { API_URL } from '../../lib/api';
-import { socket, connectSocket, disconnectSocket } from '../../lib/socket';
+} from "react";
+import { API_URL } from "../../lib/api";
+import { socket, connectSocket, disconnectSocket } from "../../lib/socket";
 import {
   ChatMessage,
   PresenceState,
   ServerMessage,
-} from '../../lib/chat/types';
+} from "../../lib/chat/types";
 import {
   addOptimistic,
   addOptimisticImage,
@@ -27,10 +27,10 @@ import {
   mergeHistory,
   prependOlder,
   setUploadProgress,
-} from '../../lib/chat/reconcile';
-import { uploadImage } from '../../lib/upload/uploadImage';
+} from "../../lib/chat/reconcile";
+import { uploadImage } from "../../lib/upload/uploadImage";
 
-type ConnectionStatus = 'connecting' | 'connected' | 'disconnected';
+type ConnectionStatus = "connecting" | "connected" | "disconnected";
 
 interface State {
   currentUserId: string;
@@ -42,12 +42,16 @@ interface State {
 }
 
 type Action =
-  | { type: 'SET_USER'; userId: string }
-  | { type: 'SET_STATUS'; status: ConnectionStatus }
-  | { type: 'LOAD_CONVERSATION'; otherUserId: string; messages: ServerMessage[] }
-  | { type: 'PREPEND'; otherUserId: string; messages: ServerMessage[] }
+  | { type: "SET_USER"; userId: string }
+  | { type: "SET_STATUS"; status: ConnectionStatus }
   | {
-      type: 'ADD_OPTIMISTIC';
+      type: "LOAD_CONVERSATION";
+      otherUserId: string;
+      messages: ServerMessage[];
+    }
+  | { type: "PREPEND"; otherUserId: string; messages: ServerMessage[] }
+  | {
+      type: "ADD_OPTIMISTIC";
       otherUserId: string;
       draft: {
         clientTempId: string;
@@ -58,7 +62,7 @@ type Action =
       };
     }
   | {
-      type: 'ADD_OPTIMISTIC_IMAGE';
+      type: "ADD_OPTIMISTIC_IMAGE";
       otherUserId: string;
       draft: {
         clientTempId: string;
@@ -69,19 +73,28 @@ type Action =
         createdAt: string;
       };
     }
-  | { type: 'UPLOAD_PROGRESS'; otherUserId: string; clientTempId: string; progress: number }
-  | { type: 'ACK'; otherUserId: string; ack: { id: string; createdAt: string; clientTempId: string } }
-  | { type: 'FAIL'; otherUserId: string; clientTempId: string }
-  | { type: 'INCOMING'; message: ServerMessage; activeId: string | null }
-  | { type: 'READ'; otherUserId: string; readAt: string }
-  | { type: 'PRESENCE'; userId: string; presence: PresenceState }
-  | { type: 'TYPING'; userId: string; typing: boolean }
-  | { type: 'CLEAR_UNREAD'; otherUserId: string }
-  | { type: 'SET_UNREAD'; counts: { userId: string; count: number }[] };
+  | {
+      type: "UPLOAD_PROGRESS";
+      otherUserId: string;
+      clientTempId: string;
+      progress: number;
+    }
+  | {
+      type: "ACK";
+      otherUserId: string;
+      ack: { id: string; createdAt: string; clientTempId: string };
+    }
+  | { type: "FAIL"; otherUserId: string; clientTempId: string }
+  | { type: "INCOMING"; message: ServerMessage; activeId: string | null }
+  | { type: "READ"; otherUserId: string; readAt: string }
+  | { type: "PRESENCE"; userId: string; presence: PresenceState }
+  | { type: "TYPING"; userId: string; typing: boolean }
+  | { type: "CLEAR_UNREAD"; otherUserId: string }
+  | { type: "SET_UNREAD"; counts: { userId: string; count: number }[] };
 
 const initialState: State = {
-  currentUserId: '',
-  status: 'connecting',
+  currentUserId: "",
+  status: "connecting",
   conversations: {},
   presence: {},
   unread: {},
@@ -101,11 +114,11 @@ function setConv(
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'SET_USER':
+    case "SET_USER":
       return { ...state, currentUserId: action.userId };
-    case 'SET_STATUS':
+    case "SET_STATUS":
       return { ...state, status: action.status };
-    case 'LOAD_CONVERSATION': {
+    case "LOAD_CONVERSATION": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(
         state,
@@ -113,7 +126,7 @@ function reducer(state: State, action: Action): State {
         mergeHistory(existing, action.messages),
       );
     }
-    case 'PREPEND': {
+    case "PREPEND": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(
         state,
@@ -121,7 +134,7 @@ function reducer(state: State, action: Action): State {
         prependOlder(existing, action.messages),
       );
     }
-    case 'ADD_OPTIMISTIC': {
+    case "ADD_OPTIMISTIC": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(
         state,
@@ -129,11 +142,15 @@ function reducer(state: State, action: Action): State {
         addOptimistic(existing, action.draft),
       );
     }
-    case 'ADD_OPTIMISTIC_IMAGE': {
+    case "ADD_OPTIMISTIC_IMAGE": {
       const existing = state.conversations[action.otherUserId] ?? [];
-      return setConv(state, action.otherUserId, addOptimisticImage(existing, action.draft));
+      return setConv(
+        state,
+        action.otherUserId,
+        addOptimisticImage(existing, action.draft),
+      );
     }
-    case 'UPLOAD_PROGRESS': {
+    case "UPLOAD_PROGRESS": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(
         state,
@@ -141,11 +158,11 @@ function reducer(state: State, action: Action): State {
         setUploadProgress(existing, action.clientTempId, action.progress),
       );
     }
-    case 'ACK': {
+    case "ACK": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(state, action.otherUserId, applyAck(existing, action.ack));
     }
-    case 'FAIL': {
+    case "FAIL": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(
         state,
@@ -153,7 +170,7 @@ function reducer(state: State, action: Action): State {
         markFailed(existing, action.clientTempId),
       );
     }
-    case 'INCOMING': {
+    case "INCOMING": {
       const { message, activeId } = action;
       const other =
         message.senderId === state.currentUserId
@@ -170,7 +187,7 @@ function reducer(state: State, action: Action): State {
       }
       return next;
     }
-    case 'READ': {
+    case "READ": {
       const existing = state.conversations[action.otherUserId] ?? [];
       return setConv(
         state,
@@ -178,22 +195,22 @@ function reducer(state: State, action: Action): State {
         applyRead(existing, state.currentUserId, action.readAt),
       );
     }
-    case 'PRESENCE':
+    case "PRESENCE":
       return {
         ...state,
         presence: { ...state.presence, [action.userId]: action.presence },
       };
-    case 'TYPING':
+    case "TYPING":
       return {
         ...state,
         typing: { ...state.typing, [action.userId]: action.typing },
       };
-    case 'CLEAR_UNREAD':
+    case "CLEAR_UNREAD":
       return {
         ...state,
         unread: { ...state.unread, [action.otherUserId]: 0 },
       };
-    case 'SET_UNREAD': {
+    case "SET_UNREAD": {
       const unread: Record<string, number> = {};
       for (const c of action.counts) {
         unread[c.userId] = c.count;
@@ -222,13 +239,13 @@ const ChatContext = createContext<ChatContextValue | null>(null);
 export function useChatContext(): ChatContextValue {
   const ctx = useContext(ChatContext);
   if (!ctx) {
-    throw new Error('useChatContext must be used within ChatProvider');
+    throw new Error("useChatContext must be used within ChatProvider");
   }
   return ctx;
 }
 
 function authHeaders() {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return { headers: { Authorization: `Bearer ${token}` } };
 }
 
@@ -242,7 +259,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   // context value and re-running useChat's effect (which re-emits message:read).
   const conversationsRef = useRef<Record<string, ChatMessage[]>>({});
   conversationsRef.current = state.conversations;
-  const currentUserIdRef = useRef('');
+  const currentUserIdRef = useRef("");
   currentUserIdRef.current = state.currentUserId;
 
   const setActive = useCallback((otherUserId: string | null) => {
@@ -253,14 +270,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     let mounted = true;
 
     async function init() {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
         return;
       }
       try {
         const me = await axios.get(`${API_URL}/auth/me`, authHeaders());
         if (!mounted) return;
-        dispatch({ type: 'SET_USER', userId: me.data.user.id });
+        dispatch({ type: "SET_USER", userId: me.data.user.id });
       } catch {
         return;
       }
@@ -271,7 +288,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
           authHeaders(),
         );
         if (mounted) {
-          dispatch({ type: 'SET_UNREAD', counts: counts.data || [] });
+          dispatch({ type: "SET_UNREAD", counts: counts.data || [] });
         }
       } catch {
         // non-fatal
@@ -282,45 +299,50 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
     init();
 
-    const onConnect = () => dispatch({ type: 'SET_STATUS', status: 'connected' });
+    const onConnect = () =>
+      dispatch({ type: "SET_STATUS", status: "connected" });
     const onDisconnect = () =>
-      dispatch({ type: 'SET_STATUS', status: 'disconnected' });
+      dispatch({ type: "SET_STATUS", status: "disconnected" });
     const onNewMessage = (m: ServerMessage) =>
-      dispatch({ type: 'INCOMING', message: m, activeId: activeRef.current });
+      dispatch({ type: "INCOMING", message: m, activeId: activeRef.current });
     const onRead = (e: { conversationWith: string; readAt: string }) =>
-      dispatch({ type: 'READ', otherUserId: e.conversationWith, readAt: e.readAt });
+      dispatch({
+        type: "READ",
+        otherUserId: e.conversationWith,
+        readAt: e.readAt,
+      });
     const onTypingStart = (e: { fromUserId: string }) =>
-      dispatch({ type: 'TYPING', userId: e.fromUserId, typing: true });
+      dispatch({ type: "TYPING", userId: e.fromUserId, typing: true });
     const onTypingStop = (e: { fromUserId: string }) =>
-      dispatch({ type: 'TYPING', userId: e.fromUserId, typing: false });
+      dispatch({ type: "TYPING", userId: e.fromUserId, typing: false });
     const onPresence = (e: {
       userId: string;
       online: boolean;
       lastSeen?: string | null;
     }) =>
       dispatch({
-        type: 'PRESENCE',
+        type: "PRESENCE",
         userId: e.userId,
         presence: { online: e.online, lastSeen: e.lastSeen ?? null },
       });
 
-    socket.on('connect', onConnect);
-    socket.on('disconnect', onDisconnect);
-    socket.on('message:new', onNewMessage);
-    socket.on('message:read', onRead);
-    socket.on('typing:start', onTypingStart);
-    socket.on('typing:stop', onTypingStop);
-    socket.on('presence:update', onPresence);
+    socket.on("connect", onConnect);
+    socket.on("disconnect", onDisconnect);
+    socket.on("message:new", onNewMessage);
+    socket.on("message:read", onRead);
+    socket.on("typing:start", onTypingStart);
+    socket.on("typing:stop", onTypingStop);
+    socket.on("presence:update", onPresence);
 
     return () => {
       mounted = false;
-      socket.off('connect', onConnect);
-      socket.off('disconnect', onDisconnect);
-      socket.off('message:new', onNewMessage);
-      socket.off('message:read', onRead);
-      socket.off('typing:start', onTypingStart);
-      socket.off('typing:stop', onTypingStop);
-      socket.off('presence:update', onPresence);
+      socket.off("connect", onConnect);
+      socket.off("disconnect", onDisconnect);
+      socket.off("message:new", onNewMessage);
+      socket.off("message:read", onRead);
+      socket.off("typing:start", onTypingStart);
+      socket.off("typing:stop", onTypingStop);
+      socket.off("presence:update", onPresence);
       disconnectSocket();
     };
   }, []);
@@ -336,7 +358,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         authHeaders(),
       );
       dispatch({
-        type: 'LOAD_CONVERSATION',
+        type: "LOAD_CONVERSATION",
         otherUserId,
         messages: res.data || [],
       });
@@ -345,25 +367,22 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const loadOlder = useCallback(
-    async (otherUserId: string) => {
-      const existing = conversationsRef.current[otherUserId] ?? [];
-      const oldest = existing.find((m) => m.status === 'sent');
-      if (!oldest) {
-        return;
-      }
-      try {
-        const res = await axios.get(
-          `${API_URL}/messages/${otherUserId}?limit=30&before=${encodeURIComponent(oldest.createdAt)}`,
-          authHeaders(),
-        );
-        dispatch({ type: 'PREPEND', otherUserId, messages: res.data || [] });
-      } catch {
-        // non-fatal
-      }
-    },
-    [],
-  );
+  const loadOlder = useCallback(async (otherUserId: string) => {
+    const existing = conversationsRef.current[otherUserId] ?? [];
+    const oldest = existing.find((m) => m.status === "sent");
+    if (!oldest) {
+      return;
+    }
+    try {
+      const res = await axios.get(
+        `${API_URL}/messages/${otherUserId}?limit=30&before=${encodeURIComponent(oldest.createdAt)}`,
+        authHeaders(),
+      );
+      dispatch({ type: "PREPEND", otherUserId, messages: res.data || [] });
+    } catch {
+      // non-fatal
+    }
+  }, []);
 
   const sendMessage = useCallback(
     async (otherUserId: string, content: string) => {
@@ -372,12 +391,12 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         return;
       }
       const clientTempId =
-        typeof crypto !== 'undefined' && crypto.randomUUID
+        typeof crypto !== "undefined" && crypto.randomUUID
           ? crypto.randomUUID()
           : `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
       const createdAt = new Date().toISOString();
       dispatch({
-        type: 'ADD_OPTIMISTIC',
+        type: "ADD_OPTIMISTIC",
         otherUserId,
         draft: {
           clientTempId,
@@ -388,20 +407,18 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         },
       });
       try {
-        const ack = await socket
-          .timeout(5000)
-          .emitWithAck('message:send', {
-            receiverId: otherUserId,
-            content: trimmed,
-            clientTempId,
-          });
+        const ack = await socket.timeout(5000).emitWithAck("message:send", {
+          receiverId: otherUserId,
+          content: trimmed,
+          clientTempId,
+        });
         if (ack && ack.id) {
-          dispatch({ type: 'ACK', otherUserId, ack });
+          dispatch({ type: "ACK", otherUserId, ack });
         } else {
-          dispatch({ type: 'FAIL', otherUserId, clientTempId });
+          dispatch({ type: "FAIL", otherUserId, clientTempId });
         }
       } catch {
-        dispatch({ type: 'FAIL', otherUserId, clientTempId });
+        dispatch({ type: "FAIL", otherUserId, clientTempId });
       }
     },
     [],
@@ -409,14 +426,14 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   const sendImage = useCallback(async (otherUserId: string, file: File) => {
     const clientTempId =
-      typeof crypto !== 'undefined' && crypto.randomUUID
+      typeof crypto !== "undefined" && crypto.randomUUID
         ? crypto.randomUUID()
         : `${Date.now()}-${Math.round(Math.random() * 1e6)}`;
     const createdAt = new Date().toISOString();
     const localPreviewUrl = URL.createObjectURL(file);
 
     dispatch({
-      type: 'ADD_OPTIMISTIC_IMAGE',
+      type: "ADD_OPTIMISTIC_IMAGE",
       otherUserId,
       draft: {
         clientTempId,
@@ -429,24 +446,29 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     });
 
     try {
-      const { key, contentType } = await uploadImage(file, 'chat', {
+      const { key, contentType } = await uploadImage(file, "chat", {
         receiverId: otherUserId,
         onProgress: (progress) =>
-          dispatch({ type: 'UPLOAD_PROGRESS', otherUserId, clientTempId, progress }),
+          dispatch({
+            type: "UPLOAD_PROGRESS",
+            otherUserId,
+            clientTempId,
+            progress,
+          }),
       });
-      const ack = await socket.timeout(10000).emitWithAck('message:send', {
+      const ack = await socket.timeout(10000).emitWithAck("message:send", {
         receiverId: otherUserId,
         attachmentKey: key,
         attachmentType: contentType,
         clientTempId,
       });
       if (ack && ack.id) {
-        dispatch({ type: 'ACK', otherUserId, ack });
+        dispatch({ type: "ACK", otherUserId, ack });
       } else {
-        dispatch({ type: 'FAIL', otherUserId, clientTempId });
+        dispatch({ type: "FAIL", otherUserId, clientTempId });
       }
     } catch {
-      dispatch({ type: 'FAIL', otherUserId, clientTempId });
+      dispatch({ type: "FAIL", otherUserId, clientTempId });
     }
   }, []);
 
@@ -457,22 +479,26 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       if (!failed) {
         return;
       }
-      dispatch({ type: 'ACK', otherUserId, ack: { id: clientTempId, createdAt: failed.createdAt, clientTempId } });
+      dispatch({
+        type: "ACK",
+        otherUserId,
+        ack: { id: clientTempId, createdAt: failed.createdAt, clientTempId },
+      });
       await sendMessage(otherUserId, failed.content);
     },
     [sendMessage],
   );
 
   const markRead = useCallback((otherUserId: string) => {
-    socket.emit('message:read', { otherUserId });
-    dispatch({ type: 'CLEAR_UNREAD', otherUserId });
+    socket.emit("message:read", { otherUserId });
+    dispatch({ type: "CLEAR_UNREAD", otherUserId });
   }, []);
 
   const emitTyping = useCallback((otherUserId: string, isTyping: boolean) => {
     if (isTyping) {
-      socket.emit('typing:start', { receiverId: otherUserId });
+      socket.emit("typing:start", { receiverId: otherUserId });
     } else {
-      socket.emit('typing:stop', { receiverId: otherUserId });
+      socket.emit("typing:stop", { receiverId: otherUserId });
     }
   }, []);
 

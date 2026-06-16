@@ -360,62 +360,6 @@ export default function Quiz7Page() {
 
         {/* FOOTER */}
 
-        <footer className="
-          max-w-md
-          mx-auto
-          px-6
-          pb-10
-        ">
-
-          <div className="
-            bg-white/10
-            backdrop-blur-xl
-            border
-            border-white/10
-            rounded-2xl
-            p-6
-            text-center
-          ">
-
-            <div className="
-              flex
-              justify-center
-              gap-6
-              mb-4
-              text-sm
-            ">
-
-              <Link href="/terms">
-                Terms of Service
-              </Link>
-
-              <Link href="/privacy">
-                Privacy Policy
-              </Link>
-
-            </div>
-
-            <p className="
-              text-sm
-              text-white/70
-              mb-2
-            ">
-              Users 18+ only.
-            </p>
-
-            <p className="
-              text-xs
-              text-white/50
-            ">
-              © 2026 MutualPathways.
-              All Rights Reserved.
-              Owned and operated by
-              True Blue Digital Media LTD
-            </p>
-
-          </div>
-
-        </footer>
 
       </div>
 

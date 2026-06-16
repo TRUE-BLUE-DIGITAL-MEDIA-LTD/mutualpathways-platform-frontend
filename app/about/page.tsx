@@ -41,141 +41,100 @@ export default function AboutPage() {
         />
 
         <h1 className="
-          text-5xl
-          font-bold
-          mb-10
-        ">
-          About Us
-        </h1>
+  text-5xl
+  font-bold
+  mb-10
+">
+  About Us
+</h1>
 
-        <div className="
-          text-zinc-300
-          text-lg
-          leading-9
-          space-y-8
-        ">
+<div className="
+  text-zinc-300
+  text-lg
+  leading-9
+  space-y-8
+">
 
-          <p>
-            We aim to focus on the things
-            that truly matter when it comes
-            to relationships. Creating
-            meaningful connections starts
-            with valuing authenticity,
-            trust, and respect between
-            people.
-          </p>
+  <p>
+    At MutualPathways, we believe
+    meaningful relationships are
+    built on more than appearances
+    or first impressions. Lasting
+    connections grow through shared
+    values, mutual respect, genuine
+    communication, and a desire to
+    understand one another.
+  </p>
 
-          <p>
-            Instead of trying to impress
-            others or appear perfect,
-            it is often more important
-            to be honest and genuine
-            in how you communicate.
-            When people feel that someone
-            is sincere, it naturally builds
-            comfort and encourages open
-            conversation.
-          </p>
+  <p>
+    Our platform was created to help
+    people discover compatible
+    connections in an environment
+    that encourages authenticity and
+    meaningful interaction. We
+    believe the strongest
+    relationships begin when people
+    feel comfortable being
+    themselves and communicating
+    openly.
+  </p>
 
-          <p>
-            Taking the time to truly listen
-            is a key part of forming strong
-            connections. Giving someone
-            your full attention shows that
-            their thoughts, feelings, and
-            experiences are important.
-            Over time, this kind of
-            attentiveness helps create
-            a deeper sense of understanding.
-          </p>
+  <p>
+    Trust is at the heart of every
+    successful connection. By
+    fostering honest conversations
+    and encouraging respectful
+    interactions, we aim to create a
+    space where members can build
+    confidence, form genuine bonds,
+    and explore relationships with
+    intention.
+  </p>
 
-          <p>
-            Reliability also plays an
-            important role. Trust develops
-            when actions are consistent and
-            promises are kept. Often, it is
-            not the large gestures that
-            matter most, but the small,
-            thoughtful actions that
-            demonstrate care and
-            consideration.
-          </p>
+  <p>
+    We also recognize the importance
+    of compatibility beyond
+    surface-level attraction.
+    Shared goals, common interests,
+    life values, and emotional
+    understanding often play an
+    important role in creating
+    fulfilling and lasting
+    relationships.
+  </p>
 
-          <p>
-            Clear and respectful
-            communication helps avoid
-            confusion and strengthens the
-            relationship. At the same time,
-            recognizing and respecting
-            personal boundaries allows both
-            people to feel safe and valued.
-          </p>
+  <p>
+    Respect, empathy, and
+    reliability are principles we
+    value highly. Whether someone is
+    looking for friendship,
+    companionship, or a long-term
+    relationship, we believe every
+    interaction should be based on
+    kindness, consideration, and
+    mutual understanding.
+  </p>
 
-          <p>
-            When individuals invest
-            patience, empathy, and effort
-            into their interactions,
-            connections can grow naturally.
-          </p>
+  <p>
+    At MutualPathways, our goal is
+    simple: to provide a welcoming
+    platform where people can create
+    meaningful connections, build
+    trust, and explore relationships
+    that have the potential to grow
+    into something truly lasting.
+  </p>
 
-          <p>
-            By concentrating on these
-            essential principles,
-            relationships have the
-            opportunity to become stronger,
-            more meaningful, and lasting.
-          </p>
+  <p>
+    Thank you for being part of our
+    community.
+  </p>
 
-        </div>
+</div>
 
       </section>
 
-      <footer className="
-        border-t
-        border-zinc-800
-        mt-20
-      ">
-
-        <div className="
-          max-w-7xl
-          mx-auto
-          px-6
-          py-10
-          text-center
-          text-zinc-400
-        ">
-
-          <div className="
-            flex
-            justify-center
-            gap-6
-            mb-6
-          ">
-
-            <Link href="/terms">
-              Terms of Service
-            </Link>
-
-            <Link href="/privacy">
-              Privacy Policy
-            </Link>
-
-          </div>
-
-          <p className="mb-2">
-            Users 18+ only.
-          </p>
-
-          <p>
-            © 2026 MutualPathways.
-            All Rights Reserved.
-            Owned and operated by
-            True Blue Digital Media LTD
-          </p>
-
-        </div>
-
-      </footer>
+      
 
     </main>
   );

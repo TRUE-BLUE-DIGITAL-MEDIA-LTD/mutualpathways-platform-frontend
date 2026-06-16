@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import axios from 'axios';
-import { API_URL } from '../../../lib/api';
-import { ChatMessage } from '../../../lib/chat/types';
+import { useState } from "react";
+import axios from "axios";
+import { API_URL } from "../../../lib/api";
+import { ChatMessage } from "../../../lib/chat/types";
 
 function StatusTicks({ message }: { message: ChatMessage }) {
-  if (message.status === 'uploading') {
+  if (message.status === "uploading") {
     return <span className="opacity-60">{message.uploadProgress ?? 0}%</span>;
   }
-  if (message.status === 'pending') {
+  if (message.status === "pending") {
     return <span className="opacity-60">·</span>;
   }
-  if (message.status === 'failed') {
+  if (message.status === "failed") {
     return <span className="text-red-300">! failed</span>;
   }
   if (message.readAt) {
@@ -25,7 +25,9 @@ function StatusTicks({ message }: { message: ChatMessage }) {
 }
 
 function ImageContent({ message }: { message: ChatMessage }) {
-  const [src, setSrc] = useState(message.localPreviewUrl || message.attachmentUrl || '');
+  const [src, setSrc] = useState(
+    message.localPreviewUrl || message.attachmentUrl || "",
+  );
   const [refreshed, setRefreshed] = useState(false);
 
   async function handleError() {
@@ -34,7 +36,7 @@ function ImageContent({ message }: { message: ChatMessage }) {
     }
     setRefreshed(true);
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const { data } = await axios.get(
         `${API_URL}/uploads/sign-read?key=${encodeURIComponent(message.attachmentKey)}`,
         { headers: { Authorization: `Bearer ${token}` } },
@@ -56,7 +58,7 @@ function ImageContent({ message }: { message: ChatMessage }) {
         onError={handleError}
         className="max-h-72 max-w-full rounded-xl object-cover"
       />
-      {message.status === 'uploading' && (
+      {message.status === "uploading" && (
         <div className="absolute inset-0 flex items-center justify-center rounded-xl bg-black/40">
           <span className="text-sm font-semibold text-white">
             {message.uploadProgress ?? 0}%
@@ -78,31 +80,36 @@ export default function MessageBubble({
 }) {
   const isImage = Boolean(message.attachmentUrl || message.localPreviewUrl);
   return (
-    <div className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
+    <div className={`flex ${isMine ? "justify-end" : "justify-start"}`}>
       <div
         className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-          isMine ? 'bg-pink-500 text-white' : 'bg-zinc-800 text-white'
+          isMine ? "bg-pink-500 text-white" : "bg-zinc-800 text-white"
         }`}
       >
         {isImage ? (
           <ImageContent message={message} />
         ) : (
-          <div className="whitespace-pre-wrap break-words">{message.content}</div>
+          <div className="break-words whitespace-pre-wrap">
+            {message.content}
+          </div>
         )}
         <div className="mt-2 flex items-center justify-end gap-2 text-xs opacity-70">
           <span>
             {new Date(message.createdAt).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
+              hour: "2-digit",
+              minute: "2-digit",
             })}
           </span>
           {isMine && <StatusTicks message={message} />}
           {isMine &&
             !isImage &&
-            message.status === 'failed' &&
+            message.status === "failed" &&
             message.clientTempId &&
             onRetry && (
-              <button onClick={() => onRetry(message.clientTempId!)} className="underline">
+              <button
+                onClick={() => onRetry(message.clientTempId!)}
+                className="underline"
+              >
                 Retry
               </button>
             )}

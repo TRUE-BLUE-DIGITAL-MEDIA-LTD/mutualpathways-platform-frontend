@@ -164,53 +164,7 @@ export default function Article6Page() {
 
       </section>
 
-      <footer className="
-        border-t
-        border-zinc-800
-        mt-20
-      ">
-
-        <div className="
-          max-w-7xl
-          mx-auto
-          px-6
-          py-10
-          text-center
-          text-zinc-400
-        ">
-
-          <div className="
-            flex
-            justify-center
-            gap-6
-            mb-6
-            flex-wrap
-          ">
-
-            <Link href="/terms">
-              Terms of Service
-            </Link>
-
-            <Link href="/privacy">
-              Privacy Policy
-            </Link>
-
-          </div>
-
-          <p className="mb-2">
-            Users 18+ only.
-          </p>
-
-          <p>
-            © 2026 MutualPathways.
-            All Rights Reserved.
-            Owned and operated by
-            True Blue Digital Media LTD
-          </p>
-
-        </div>
-
-      </footer>
+      
 
     </main>
   );

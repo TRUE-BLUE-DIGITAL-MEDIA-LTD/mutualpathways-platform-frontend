@@ -73,7 +73,7 @@ export default function TermsPage() {
                 Last Updated:
               </strong>
               {' '}
-              January 1, 2026
+              June 14, 2026
             </p>
 
             <p>
@@ -135,74 +135,81 @@ export default function TermsPage() {
 
           <div>
 
-            <h2 className="
-              text-3xl
-              font-bold
-              mb-4
-              text-white
-            ">
-              3. Description of Services
-            </h2>
+  <h2 className="
+    text-3xl
+    font-bold
+    mb-4
+    text-white
+  ">
+    3. Description of Services
+  </h2>
 
-            <p>
-              We publish blog articles,
-              insights, opinions,
-              and points of view related
-              to building relationships,
-              meaningful connections,
-              friendship,
-              personality matches,
-              and related topics.
-            </p>
+  <p>
+    MutualPathways operates an online
+    social and relationship platform
+    designed to help adults build
+    meaningful connections,
+    friendships, companionship,
+    and long-term relationships.
+  </p>
 
-            <p>
-              All content provided on
-              our blog is intended for
-              informational and
-              entertainment purposes only
-              and may reflect our
-              perspectives, analysis,
-              or commentary.
-            </p>
+  <p>
+    Users may create profiles,
+    discover other members,
+    communicate through platform
+    features, express interest in
+    potential matches, and access
+    other tools and services intended
+    to facilitate respectful and
+    authentic interactions.
+  </p>
 
-            <p>
-              The views expressed in
-              our articles represent
-              our opinions and are not
-              intended to constitute
-              formal professional,
-              legal, or financial advice
-              unless explicitly stated
-              otherwise.
-            </p>
+  <p>
+    We may also provide educational
+    content, articles, insights,
+    recommendations, and other
+    relationship-related information
+    for informational purposes.
+  </p>
 
-          </div>
+</div>
+
 
           <div>
 
-            <h2 className="
-              text-3xl
-              font-bold
-              mb-4
-              text-white
-            ">
-              4. Advertising Content
-            </h2>
+  <h2 className="
+    text-3xl
+    font-bold
+    mb-4
+    text-white
+  ">
+    4. User Content and Conduct
+  </h2>
 
-            <p>
-              You represent that you
-              have all necessary rights
-              to submitted content and
-              that it complies with
-              applicable advertising laws.
-            </p>
+  <p>
+    Users are responsible for the
+    content they submit, publish,
+    upload, or share through the
+    Services.
+  </p>
 
-            <p>
-              We may reject or remove
-              content at our discretion.
-            </p>
+  <p>
+    You represent that any content
+    you provide is accurate, lawful,
+    and does not violate the rights
+    of any third party.
+  </p>
 
-          </div>
+  <p>
+    We reserve the right to remove,
+    restrict, or moderate content
+    that violates these Terms,
+    applicable laws, or our
+    community standards.
+  </p>
+
+</div>
+
 
           <div>
 
@@ -216,40 +223,32 @@ export default function TermsPage() {
             </h2>
 
             <p>
-              Our blog may contain
-              advertising,
-              sponsored content,
-              promotional materials,
-              or paid placements.
-            </p>
+  MutualPathways may contain
+  advertisements, sponsored content,
+  affiliate links, promotional
+  materials, or referrals to
+  third-party websites and services.
+</p>
 
-            <p>
-              Such advertising may be
-              displayed in various formats,
-              including banners,
-              native ads,
-              affiliate links,
-              or sponsored articles.
-            </p>
+<p>
+  We may receive compensation when
+  users click on certain links,
+  register with third-party services,
+  or engage with promoted offers.
+</p>
 
-            <p>
-              This means that when you
-              click on such advertising
-              we may receive a small
-              commission at no additional
-              cost to you.
-            </p>
+<p>
+  Any relationship between
+  MutualPathways and third-party
+  partners does not constitute an
+  endorsement or guarantee of those
+  services.
+</p>
 
-            <p>
-              This financial relationship
-              does not influence our
-              content, reviews,
-              or recommendations.
-            </p>
 
             <p>
               By accessing and using
-              our blog,
+              our platform,
               you acknowledge and agree
               that the website may include
               both editorial content and
@@ -350,26 +349,47 @@ export default function TermsPage() {
 
           <div>
 
-            <h2 className="
-              text-3xl
-              font-bold
-              mb-4
-              text-white
-            ">
-              9. Third-Party Services
-            </h2>
+  <h2 className="
+    text-3xl
+    font-bold
+    mb-4
+    text-white
+  ">
+    9. Third-Party Services
+  </h2>
 
-            <p>
-              We may integrate
-              third-party services.
-            </p>
+  <p>
+    The Services may contain links,
+    advertisements, affiliate links,
+    sponsored content, promotional
+    materials, or referrals to
+    third-party websites,
+    applications, products,
+    or services.
+  </p>
 
-            <p>
-              We are not responsible for
-              their content or practices.
-            </p>
+  <p>
+    We may receive compensation when
+    users interact with certain
+    third-party offers or services.
+  </p>
 
-          </div>
+  <p>
+    We are not responsible for the
+    content, policies, practices,
+    availability, or security of
+    third-party services.
+  </p>
+
+  <p>
+    Your interactions with any
+    third-party service are governed
+    by that provider's own terms
+    and privacy policies.
+  </p>
+
+</div>
+
 
           <div>
 
@@ -475,7 +495,7 @@ export default function TermsPage() {
             <p>
               Email:
               {' '}
-              contact@mutualpathways.com
+              contact@mutual-pathways.com
             </p>
 
           </div>
@@ -484,52 +504,7 @@ export default function TermsPage() {
 
       </section>
 
-      <footer className="
-        border-t
-        border-zinc-800
-        mt-20
-      ">
-
-        <div className="
-          max-w-7xl
-          mx-auto
-          px-6
-          py-10
-          text-center
-          text-zinc-400
-        ">
-
-          <div className="
-            flex
-            justify-center
-            gap-6
-            mb-6
-          ">
-
-            <Link href="/terms">
-              Terms of Service
-            </Link>
-
-            <Link href="/privacy">
-              Privacy Policy
-            </Link>
-
-          </div>
-
-          <p className="mb-2">
-            Users 18+ only.
-          </p>
-
-          <p>
-            © 2026 MutualPathways.
-            All Rights Reserved.
-            Owned and operated by
-            True Blue Digital Media LTD
-          </p>
-
-        </div>
-
-      </footer>
+     
 
     </main>
   );

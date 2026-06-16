@@ -128,13 +128,9 @@ export default function LandingPage() {
             leading-8
             mb-10
           ">
-            Discover meaningful
-            relationships,
-            compatibility,
-            friendship,
-            and emotional connection
-            through a thoughtful
-            modern social platform.
+            MutualPathways helps people discover meaningful relationships 
+            through profile matching, compatibility tools, 
+            secure messaging, and shared interests.
           </p>
 
           {/* CTA BUTTONS */}
@@ -332,129 +328,7 @@ export default function LandingPage() {
 
       {/* FOOTER */}
 
-      <footer className="
-        border-t
-        border-zinc-800
-      ">
-
-        <div className="
-          max-w-6xl
-          mx-auto
-          px-4
-          sm:px-6
-          py-10
-          text-center
-        ">
-
-          <div className="
-            flex
-            flex-wrap
-            justify-center
-            gap-5
-            sm:gap-6
-            mb-6
-            text-sm
-            sm:text-base
-          ">
-
-            <Link
-              href="/terms"
-
-              className="
-                hover:text-zinc-300
-                transition
-              "
-            >
-              Terms
-            </Link>
-
-            <Link
-              href="/privacy"
-
-              className="
-                hover:text-zinc-300
-                transition
-              "
-            >
-              Privacy
-            </Link>
-
-            <Link
-              href="/about"
-
-              className="
-                hover:text-zinc-300
-                transition
-              "
-            >
-              About
-            </Link>
-
-          </div>
-
-          <p className="
-            text-zinc-500
-            text-sm
-          ">
-            Users 18+ only.
-          </p>
-
-          <p className="
-            text-zinc-600
-            text-xs
-            sm:text-sm
-            mt-2
-            leading-6
-          ">
-            © 2026 MutualPathways.
-            All Rights Reserved.
-            Owned and Operated by
-            True Blue Digital Media LTD.
-          </p>
-
-          {/* OPT-IN / OPT-OUT */}
-
-          <div className="
-            flex
-            items-center
-            justify-center
-            gap-3
-            mt-4
-            text-xs
-            text-zinc-500
-          ">
-
-            <Link
-              href="/opt-in"
-
-              className="
-                hover:text-zinc-300
-                transition
-              "
-            >
-              Opt In
-            </Link>
-
-            <span className="text-zinc-700">
-              ·
-            </span>
-
-            <Link
-              href="/opt-out"
-
-              className="
-                hover:text-zinc-300
-                transition
-              "
-            >
-              Opt Out
-            </Link>
-
-          </div>
-
-        </div>
-
-      </footer>
+      
 
     </main>
   );

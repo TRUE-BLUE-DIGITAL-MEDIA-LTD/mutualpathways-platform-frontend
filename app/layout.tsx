@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Link from 'next/link';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,9 +34,66 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
 
-      <body className="min-h-full flex flex-col">
-        {children}
-      </body>
+      <body>
+
+  {children}
+
+  <footer className="
+    border-t
+    border-zinc-800
+    mt-20
+  ">
+
+    <div className="
+      max-w-7xl
+      mx-auto
+      px-6
+      py-10
+      text-center
+      text-zinc-400
+    ">
+
+      <div className="
+        flex
+        justify-center
+        gap-6
+        mb-6
+      ">
+
+        <Link href="/terms">
+          Terms of Service
+        </Link>
+
+        <Link href="/privacy">
+          Privacy Policy
+        </Link>
+
+        <Link href="/about">
+          About Us
+        </Link>
+
+        <Link href="/contact">
+        Contact Us
+        </Link>
+
+      </div>
+
+      <p className="mb-2">
+        Users 18+ only.
+      </p>
+
+      <p>
+        © 2026 MutualPathways.
+        All Rights Reserved.
+        Owned and operated by
+        True Blue Digital Media LTD
+      </p>
+
+    </div>
+
+  </footer>
+
+</body>
 
     </html>
   );

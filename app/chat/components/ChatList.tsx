@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { API_URL } from '../../../lib/api';
-import { useChatContext } from '../ChatProvider';
-import { usePresence } from '../../../hooks/usePresence';
+import { API_URL } from "../../../lib/api";
+import { useChatContext } from "../ChatProvider";
+import { usePresence } from "../../../hooks/usePresence";
 
 interface MatchedUser {
   userId: string;
@@ -17,9 +17,9 @@ interface Match {
 
 function imageUrl(url?: string | null) {
   if (!url) {
-    return 'https://placehold.co/200x200/18181b/ffffff?text=User';
+    return "https://placehold.co/200x200/18181b/ffffff?text=User";
   }
-  return url.startsWith('http') ? url : `${API_URL}${url}`;
+  return url.startsWith("http") ? url : `${API_URL}${url}`;
 }
 
 function ChatListItem({
@@ -38,7 +38,7 @@ function ChatListItem({
     <button
       onClick={onSelect}
       className={`flex w-full items-center gap-3 rounded-2xl p-3 text-left transition ${
-        selected ? 'bg-zinc-700' : 'bg-zinc-800 hover:bg-zinc-700'
+        selected ? "bg-zinc-700" : "bg-zinc-800 hover:bg-zinc-700"
       }`}
     >
       <div className="relative">
@@ -52,9 +52,9 @@ function ChatListItem({
         )}
       </div>
       <div className="flex-1">
-        <h3 className="font-bold">{match.matchedUser.displayName || 'User'}</h3>
+        <h3 className="font-bold">{match.matchedUser.displayName || "User"}</h3>
         <p className="text-sm text-zinc-400">
-          {presence.online ? 'Online' : 'Offline'}
+          {presence.online ? "Online" : "Offline"}
         </p>
       </div>
       {unread > 0 && (

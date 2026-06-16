@@ -1,374 +1,192 @@
-'use client';
+"use client";
 
-import { API_URL }
-  from '../../lib/api';
+import { API_URL } from "../../lib/api";
 
+import Link from "next/link";
 
-import Link from 'next/link';
+import axios from "axios";
 
-import axios from 'axios';
+import { useState } from "react";
 
-import {
-  useState,
-} from 'react';
-
-import Navbar
-  from '../../components/Navbar';
+import Navbar from "../../components/Navbar";
 
 export default function RegisterPage() {
+  const [username, setUsername] = useState("");
 
-  const [username, setUsername] =
-    useState('');
+  const [email, setEmail] = useState("");
 
-  const [email, setEmail] =
-    useState('');
+  const [password, setPassword] = useState("");
 
-  const [password, setPassword] =
-    useState('');
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  const [optIn, setOptIn] =
-    useState(true);
+  const [marketingEmails, setMarketingEmails] = useState(false);
 
   async function register() {
+    if (!acceptedTerms) {
+      alert("You must agree to the Terms of Service and Privacy Policy.");
+
+      return;
+    }
 
     try {
-
       setLoading(true);
 
-      const response =
-        await axios.post(
-          `${API_URL}/auth/register`,
-          {
-            username,
-            email,
-            password,
-          },
-        );
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        username,
+        email,
+        password,
+        marketingEmails,
+      });
 
-      localStorage.setItem(
-        'token',
-        response.data.accessToken,
-      );
+      console.log("REGISTER RESPONSE:", response.data);
 
-      if (optIn) {
+      localStorage.setItem("token", response.data.accessToken);
 
-        try {
-
-          await axios.post(
-            `${API_URL}/communications/opt-in`,
-            {
-              email,
-            },
-          );
-
-        } catch (optInError) {
-
-          console.log(optInError);
-        }
-      }
-
-      window.location.href =
-        '/discover';
-
+      window.location.href = "/discover";
     } catch (error) {
-
       console.log(error);
 
-      alert(
-        'Registration failed',
-      );
-
+      alert("Registration failed");
     } finally {
-
       setLoading(false);
     }
   }
 
   return (
-
-    <main className="
-      min-h-screen
-      bg-black
-      text-white
-    ">
-
+    <main className="min-h-screen bg-black text-white">
       <Navbar />
 
-      <section className="
-        flex
-        items-center
-        justify-center
-        px-4
-        sm:px-6
-        py-14
-        sm:py-20
-      ">
-
-        <div className="
-          w-full
-          max-w-md
-          bg-zinc-900
-          border
-          border-zinc-800
-          rounded-3xl
-          p-6
-          sm:p-8
-          shadow-2xl
-        ">
-
+      <section className="flex items-center justify-center px-4 py-14 sm:px-6 sm:py-20">
+        <div className="w-full max-w-md rounded-3xl border border-zinc-800 bg-zinc-900 p-6 shadow-2xl sm:p-8">
           {/* HEADER */}
 
-          <div className="
-            text-center
-            mb-8
-          ">
-
+          <div className="mb-8 text-center">
             <Link href="/">
-
               <img
                 src="/images/mt_logo.jpeg"
-
                 alt="MutualPathways"
-
-                className="
-                  h-14
-                  sm:h-16
-                  mx-auto
-                  mb-6
-                  object-contain
-                "
+                className="mx-auto mb-6 h-14 object-contain sm:h-16"
               />
-
             </Link>
 
-            <h1 className="
-              text-3xl
-              sm:text-4xl
-              font-bold
-              mb-3
-            ">
+            <h1 className="mb-3 text-3xl font-bold sm:text-4xl">
               Create Account
             </h1>
 
-            <p className="
-              text-zinc-400
-              text-sm
-              sm:text-base
-              leading-7
-            ">
-              Start building meaningful
-              connections today.
+            <p className="text-sm leading-7 text-zinc-400 sm:text-base">
+              Create an account to build your profile, discover compatible
+              matches, and connect with other members.
             </p>
-
           </div>
 
           {/* FORM */}
 
-          <div className="
-            space-y-4
-          ">
-
+          <div className="space-y-4">
             <input
               type="text"
-
               placeholder="Username"
-
               value={username}
-
-              onChange={(e) =>
-                setUsername(
-                  e.target.value,
-                )
-              }
-
-              className="
-                w-full
-                bg-zinc-800
-                border
-                border-zinc-700
-                rounded-2xl
-                px-4
-                py-4
-                text-white
-                outline-none
-                focus:border-white
-                transition
-                text-sm
-                sm:text-base
-              "
+              onChange={(e) => setUsername(e.target.value)}
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-4 text-sm text-white transition outline-none focus:border-white sm:text-base"
             />
 
             <input
               type="email"
-
               placeholder="Email"
-
               value={email}
-
-              onChange={(e) =>
-                setEmail(
-                  e.target.value,
-                )
-              }
-
-              className="
-                w-full
-                bg-zinc-800
-                border
-                border-zinc-700
-                rounded-2xl
-                px-4
-                py-4
-                text-white
-                outline-none
-                focus:border-white
-                transition
-                text-sm
-                sm:text-base
-              "
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-4 text-sm text-white transition outline-none focus:border-white sm:text-base"
             />
 
             <input
               type="password"
-
               placeholder="Password"
-
               value={password}
-
-              onChange={(e) =>
-                setPassword(
-                  e.target.value,
-                )
-              }
-
+              onChange={(e) => setPassword(e.target.value)}
               onKeyDown={(e) => {
-
-                if (
-                  e.key === 'Enter'
-                ) {
-
+                if (e.key === "Enter") {
                   register();
                 }
               }}
-
-              className="
-                w-full
-                bg-zinc-800
-                border
-                border-zinc-700
-                rounded-2xl
-                px-4
-                py-4
-                text-white
-                outline-none
-                focus:border-white
-                transition
-                text-sm
-                sm:text-base
-              "
+              className="w-full rounded-2xl border border-zinc-700 bg-zinc-800 px-4 py-4 text-sm text-white transition outline-none focus:border-white sm:text-base"
             />
 
-            <label className="
-              flex
-              items-start
-              gap-3
-              cursor-pointer
-              select-none
-            ">
+            <div className="mt-4 mb-4 space-y-3 text-sm">
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={acceptedTerms}
+                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  className="mt-1"
+                />
 
-              <input
-                type="checkbox"
+                <span>
+                  I agree to the{" "}
+                  <Link
+                    href="/terms"
+                    target="_blank"
+                    className="text-pink-500 underline"
+                  >
+                    Terms of Service
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/privacy"
+                    target="_blank"
+                    className="text-pink-500 underline"
+                  >
+                    Privacy Policy
+                  </Link>
+                  .
+                </span>
+              </label>
 
-                checked={optIn}
+              <label className="flex items-start gap-3">
+                <input
+                  type="checkbox"
+                  checked={marketingEmails}
+                  onChange={(e) => setMarketingEmails(e.target.checked)}
+                  className="mt-1"
+                />
 
-                onChange={(e) =>
-                  setOptIn(
-                    e.target.checked,
-                  )
-                }
+                <span>
+                  I would like to receive updates, newsletters, platform
+                  announcements, special offers, and promotional emails from
+                  MutualPathways.
+                </span>
+              </label>
+            </div>
 
-                className="
-                  mt-1
-                  h-4
-                  w-4
-                  accent-white
-                "
-              />
-
-              <span className="
-                text-zinc-400
-                text-sm
-                leading-6
-              ">
-                Keep me updated with news
-                and updates.
-              </span>
-
-            </label>
+            <span className="mt-1 block text-xs leading-5 text-zinc-500">
+              You can unsubscribe from marketing emails at any time.
+            </span>
 
             <button
               onClick={register}
-
               disabled={loading}
-
-              className="
-                w-full
-                bg-white
-                text-black
-                rounded-2xl
-                py-4
-                font-bold
-                text-base
-                sm:text-lg
-                hover:bg-zinc-200
-                transition
-                disabled:opacity-50
-              "
+              className="w-full rounded-2xl bg-white py-4 text-base font-bold text-black transition hover:bg-zinc-200 disabled:opacity-50 sm:text-lg"
             >
-              {
-                loading
-                  ? 'Loading...'
-                  : 'Create Account'
-              }
+              {loading ? "Loading..." : "Create Account"}
             </button>
 
+            <div className="space-y-3 text-sm"></div>
           </div>
 
           {/* FOOTER */}
 
-          <p className="
-            mt-8
-            text-center
-            text-zinc-500
-            text-sm
-            sm:text-base
-          ">
-
-            Already have an account?
-
-            {' '}
-
+          <p className="mt-8 text-center text-sm text-zinc-500 sm:text-base">
+            Already have an account?{" "}
             <Link
               href="/login"
-
-              className="
-                text-white
-                font-semibold
-                hover:underline
-              "
+              className="font-semibold text-white hover:underline"
             >
               Login
             </Link>
-
           </p>
-
         </div>
-
       </section>
-
     </main>
   );
 }
