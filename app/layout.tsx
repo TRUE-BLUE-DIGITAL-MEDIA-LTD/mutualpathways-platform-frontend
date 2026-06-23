@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Link from 'next/link';
-
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,8 +15,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "MutualPathways",
-  description:
-    "Meaningful relationships and genuine connections.",
+  description: "Meaningful relationships and genuine connections.",
 };
 
 export default function RootLayout({
@@ -25,76 +23,36 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
-
     <html
       lang="en"
       data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-
       <body>
+        {children}
 
-  {children}
+        <footer className="mt-20 border-t border-zinc-800">
+          <div className="mx-auto max-w-7xl px-6 py-10 text-center text-zinc-400">
+            <div className="mb-6 flex justify-center gap-6">
+              <Link href="/terms">Terms of Service</Link>
 
-  <footer className="
-    border-t
-    border-zinc-800
-    mt-20
-  ">
+              <Link href="/privacy">Privacy Policy</Link>
 
-    <div className="
-      max-w-7xl
-      mx-auto
-      px-6
-      py-10
-      text-center
-      text-zinc-400
-    ">
+              <Link href="/about">About Us</Link>
 
-      <div className="
-        flex
-        justify-center
-        gap-6
-        mb-6
-      ">
+              <Link href="/contact">Contact Us</Link>
+            </div>
 
-        <Link href="/terms">
-          Terms of Service
-        </Link>
+            <p className="mb-2">Users 18+ only.</p>
 
-        <Link href="/privacy">
-          Privacy Policy
-        </Link>
-
-        <Link href="/about">
-          About Us
-        </Link>
-
-        <Link href="/contact">
-        Contact Us
-        </Link>
-
-      </div>
-
-      <p className="mb-2">
-        Users 18+ only.
-      </p>
-
-      <p>
-        © 2026 MutualPathways.
-        All Rights Reserved.
-        Owned and operated by
-        True Blue Digital Media LTD
-      </p>
-
-    </div>
-
-  </footer>
-
-</body>
-
+            <p>
+              © 2026 MutualPathways. All Rights Reserved. Owned and operated by
+              True Blue Digital Media LTD
+            </p>
+          </div>
+        </footer>
+      </body>
     </html>
   );
 }

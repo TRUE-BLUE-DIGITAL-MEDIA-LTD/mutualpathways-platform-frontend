@@ -10,7 +10,7 @@ import Navbar from "../../components/Navbar";
 
 import { uploadImage as uploadImageToGcs } from "../../lib/upload/uploadImage";
 
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function ProfilePage() {
   const [user, setUser] = useState<any>(null);
@@ -143,7 +143,11 @@ export default function ProfilePage() {
 
         showSocials: profile.showSocials ?? prev.showSocials,
       }));
-    } catch (error) {
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        localStorage.removeItem("token");
+        window.location.href = "/";
+      }
       console.log(error);
     }
   }
@@ -197,14 +201,14 @@ export default function ProfilePage() {
   }
 
   function getImageUrl() {
-  if (!imagePreview || imagePreview === "null") {
-    return "https://placehold.co/400x400/18181b/ffffff?text=Profile";
-  }
+    if (!imagePreview || imagePreview === "null") {
+      return "https://placehold.co/400x400/18181b/ffffff?text=Profile";
+    }
 
-  return imagePreview.startsWith("http")
-    ? imagePreview
-    : `${API_URL}${imagePreview}`;
-}
+    return imagePreview.startsWith("http")
+      ? imagePreview
+      : `${API_URL}${imagePreview}`;
+  }
 
   function updateField(key: string, value: any) {
     setForm((prev: any) => ({
