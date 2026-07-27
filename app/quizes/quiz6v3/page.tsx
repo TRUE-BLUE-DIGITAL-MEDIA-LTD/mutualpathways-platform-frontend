@@ -1,16 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState } from "react";
 import Script from 'next/script';
 import Navbar from '../../../components/Navbar';
+
+import * as Tracking from "../js/tracking";
 
 export default function Quiz10Page() {
 
   const [step, setStep] = useState(1);
 
   function enterMemberArea() {
-
   const incomingParams =
     new URLSearchParams(
       window.location.search,
@@ -30,9 +31,20 @@ export default function Quiz10Page() {
     },
   );
 
+  const clientId =
+    Tracking.getGAClientId();
+
+  if (clientId) {
+    baseUrl.searchParams.set(
+      'client_id',
+      clientId,
+    );
+  }
+
   window.location.href =
     baseUrl.toString();
 }
+
 
   return (
 

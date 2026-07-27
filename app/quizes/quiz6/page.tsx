@@ -6,14 +6,14 @@ import { API_URL }
 
 import Link from 'next/link';
 
-import {
-  useState,
-} from 'react';
+import { useState } from "react";
 
 import Script from 'next/script';
 
 import Navbar
   from '../../../components/Navbar';
+
+import * as Tracking from "../js/tracking";
 
 export default function Quiz6Page() {
 
@@ -118,30 +118,39 @@ export default function Quiz6Page() {
   }
 
   function enterMemberArea() {
-
-    const incomingParams =
-      new URLSearchParams(
-        window.location.search,
-      );
-
-    const baseUrl =
-      new URL(
-        'https://linked2day.com/index.php?key=5gofmfa1tfewf5ipk72f',
-      );
-
-    incomingParams.forEach(
-      (value, key) => {
-
-        baseUrl.searchParams.set(
-          key,
-          value,
-        );
-      },
+  const incomingParams =
+    new URLSearchParams(
+      window.location.search,
     );
 
-    window.location.href =
-      baseUrl.toString();
+  const baseUrl =
+    new URL(
+      'https://linked2day.com/index.php?key=5gofmfa1tfewf5ipk72f',
+    );
+
+  incomingParams.forEach(
+    (value, key) => {
+      baseUrl.searchParams.set(
+        key,
+        value,
+      );
+    },
+  );
+
+  const clientId =
+    Tracking.getGAClientId();
+
+  if (clientId) {
+    baseUrl.searchParams.set(
+      'client_id',
+      clientId,
+    );
   }
+
+  window.location.href =
+    baseUrl.toString();
+}
+
 
   return (
 
