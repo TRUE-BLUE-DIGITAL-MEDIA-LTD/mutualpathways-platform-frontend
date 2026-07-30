@@ -24,7 +24,6 @@ export default function Quiz9Page() {
 
   useEffect(() => {
 
-
     const interval = setInterval(() => {
 
       setSlideIndex((prev) =>
@@ -109,31 +108,33 @@ export default function Quiz9Page() {
     </div>
 
     <section
-      className="
-        relative
-        z-10
-        max-w-md
-        mx-auto
-        mt-8
-        mb-6
-        px-4
-      "
+  className="
+    relative
+    z-10
+    max-w-md
+    mx-auto
+    mt-1
+    mb-1
+    p-3
+  "
     >
       <div
-        className="
-          bg-white/80
-          backdrop-blur-xl
-          rounded-[24px]
-          shadow-2xl
-          border
-          border-white
-          p-5
-        "
+  className="
+    bg-white/80
+    backdrop-blur-xl
+    rounded-[24px]
+    shadow-2xl
+    border
+    border-white
+    p-1
+  "
       >
 
-<h1 className="text-2xl font-bold text-center leading-tight mb-4">
+<h1 className="text-2xl font-bold text-center leading-tight mb-2">
 
-  ⭐ Meet Beautiful Women Seeking Something Real ⭐
+Meet Beautiful Women 
+<br />
+Seeking Something Real
 
 </h1>
 
@@ -142,8 +143,10 @@ export default function Quiz9Page() {
     relative
     overflow-hidden
     rounded-2xl
-    mb-5
-    h-[260px]
+    mb-2
+    h-[220px]
+    sm:h-[240px]
+    md:h-[260px]
   "
 >
   <div
@@ -162,12 +165,14 @@ export default function Quiz9Page() {
         src={slide}
         alt="Women"
         className="
-          w-full
-          min-w-full
-          h-[260px]
-          object-contain
-          bg-white
-        "
+    w-full
+    min-w-full
+    h-[220px]
+    sm:h-[240px]
+    md:h-[260px]
+    object-contain
+    bg-white
+  "
       />
     ))}
   </div>
@@ -220,19 +225,18 @@ export default function Quiz9Page() {
 </div>
 
 
-<div className="rounded-2xl bg-pink-50 border border-pink-100 p-4 mb-6">
+<div className="rounded-2xl bg-purple-50 border border-pink-100 p-3 mb-2">
 
-  <div className="font-semibold text-pink-600 mb-2">
+  <div className="font-semibold text-purple-600">
 
     Ready To Connect?
 
   </div>
 
-  <p className="text-sm text-zinc-500 leading-5">
+  <p className="text-[13px] text-zinc-500 leading-tight">
 
-    Browse profiles, discover shared interests,
-    and find meaningful connections at your own pace. 
-    Sign up now And start chatting With Someone who Truly matches you! 👇
+    Your next meaningful relationship could be just one message away. 
+    Browse verified profiles, find women who share your interests, and start chatting today. 👇
 
   </p>
 
@@ -242,10 +246,11 @@ export default function Quiz9Page() {
   onClick={enterMemberArea}
   className="
     w-full
-    py-4
-    rounded-2xl
+    py-3
+    mb-1
+    rounded-full
     text-white
-    text-lg
+    text-base
     font-bold
     shadow-lg
     transition-all
@@ -253,8 +258,9 @@ export default function Quiz9Page() {
   "
   style={{
     background:
-      "linear-gradient(135deg,#ff4e8a,#7b5cff)",
+      "linear-gradient(135deg, #c85adf, #7b5cff)",
   }}
+  
 >
 
   VIEW PROFILES →
@@ -262,24 +268,23 @@ export default function Quiz9Page() {
 </button>
 
 
-<div className="rounded-2xl bg-pink-50 border border-pink-100 p-4 mb-6">
-
-  <div className="font-semibold text-pink-600 mb-2">
+<div className="mt-1 rounded-2xl bg-purple-50 border border-purple-300 p-4 mb-3">
+  <div className="font-semibold text-purple-600 gap-2">
 
     Why Join? 
   </div>
 
-  <div className="flex flex-wrap justify-center gap-2 mb-5">
+  <div className="flex flex-wrap justify-center gap-1 mb-3">
 
-  <div className="rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-pink-600 shadow-sm">
+  <div className="rounded-full border border-purple-300 bg-white px-3 py-1 text-xs leading-tight font-semibold text-pink-600 shadow-sm">
     ❤️ Genuine Connections: Meet like-minded women serious about relationships
   </div>
 
-  <div className="rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-pink-600 shadow-sm">
+  <div className="rounded-full border border-purple-300 bg-white px-3 py-1 text-xs leading-tight font-semibold text-pink-600 shadow-sm">
     ✨ Safe & Smart Matching: Verified profiles with personalized recommendations.
   </div>
 
-  <div className="rounded-full border border-pink-200 bg-white px-3 py-1 text-xs font-semibold text-pink-600 shadow-sm">
+  <div className="rounded-full border border-purple-300 bg-white px-3 py-1 text-xs leading-tight font-semibold text-pink-600 shadow-sm">
     💕 Exclusive Features: Unlock private photos and videos shared by members.
   </div>
 

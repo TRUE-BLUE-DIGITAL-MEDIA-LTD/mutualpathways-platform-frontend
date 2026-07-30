@@ -2,7 +2,7 @@
 
 import { API_URL } from "../../../lib/api";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Link from "next/link";
 
@@ -41,7 +41,6 @@ export default function Quiz7Page() {
     target.toString();
 }
 
-
   return (
 
     <main
@@ -76,65 +75,65 @@ export default function Quiz7Page() {
   />
 
   <section
-    className="
-      relative
-      z-10
-      max-w-md
-      mx-auto
-      px-6
-      py-16
-    "
+  className="
+    relative
+    z-10
+    max-w-md
+    mx-auto
+    px-6
+    pt-4
+    pb-12
+  "
   >
 
     <div
-      className="
-        bg-white/10
-        backdrop-blur-xl
-        border
-        border-white/10
-        rounded-3xl
-        p-8
-        shadow-2xl
-      "
+  className="
+    bg-white/10
+    backdrop-blur-xl
+    border
+    border-white/10
+    rounded-3xl
+    p-2 md:p-8
+    shadow-2xl
+  "
     >
 
-<div className="flex flex-wrap justify-center gap-2 mb-5">
+<div className="flex flex-wrap justify-center gap-2 mb-3">
 
   
 
 </div>
 
-<h1 className="text-2xl font-bold text-center leading-tight mb-5">
+<h1 className="text-2xl font-bold text-center leading-6 mb-4">
 
-  ⭐ Meet Beatiful Women Looking
+  Meet Beatiful Women
   <br />
-  For Something Real ⭐
+  Seeking Something Real
 
 </h1>
 
-<p className="text-center text-white/90 leading-7 mb-6">
+<p className="text-center text-white/90 leading-5 mb-2">
 
-    Browse profiles, discover shared interests,
-    and find meaningful connections at your own pace. 
-    Sign up now and start chatting with someone who truly matches you! 👇
+    Your next meaningful relationship could be just one message away. 
+    Browse verified profiles, find women who share your interests, and start chatting today. 👇
 
 </p>
 
-<div className="rounded-2xl bg-white/10 border border-white/10 p-5 mb-7">
+<div className="rounded-2xl bg-white/10 border border-white/10 px-2 py-1 mb-2 text-[12px] leading-5">
 
-  <div className="font-semibold text-pink-300 mb-2">
+  <div className="font-semibold text-purple-300 mb-2">
     Why Join?
   </div>
 
-  <div className="rounded-full border border-pink-300 bg-white/20 px-3 py-1 text-xs font-semibold leading-4 mb-2">
+  <div className="rounded-full border border-purple-300 bg-white/20 px-3 py-1 text-xs font-semibold leading-tight mb-1.5">
     ❤️ Genuine Connections: Meet like-minded women serious about relationships
   </div>
 
-  <div className="rounded-full border border-pink-300 bg-white/20 px-3 py-1 text-xs font-semibold leading-4 mb-2">
+  <div className="rounded-full border border-purple-300 bg-white/20 px-3 py-1 text-xs font-semibold leading-tight mb-1.5">
     ✨ Safe & Smart Matching: Verified profiles with personalized recommendations.
   </div>
 
-  <div className="rounded-full border border-pink-300 bg-white/20 px-3 py-1 text-xs font-semibold leading-4 mb-2">
+  <div className="rounded-full border border-purple-300 bg-white/20 px-3 py-1 text-xs font-semibold leading-tight mb-1.5">
     💕 Exclusive Features: Unlock private photos and videos shared by members.
   </div>
 
@@ -150,7 +149,7 @@ export default function Quiz7Page() {
   onClick={handleFinish}
   className="
     w-full
-    py-4
+    py-3
     rounded-full
     font-bold
     text-lg
@@ -159,7 +158,7 @@ export default function Quiz7Page() {
   "
   style={{
     background:
-      "linear-gradient(135deg,#d86fa7,#b76bd3)",
+      "linear-gradient(135deg, #c85adf, #7b5cff)",
   }}
 >
 

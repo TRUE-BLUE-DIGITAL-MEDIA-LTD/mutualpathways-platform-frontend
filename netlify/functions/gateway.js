@@ -18,7 +18,6 @@ const CONFIG = Object.freeze({
   SERVICE: "Tracking Gateway",
   VERSION: "2.0.0",
   DEBUG: true,
-
   META_API_VERSION: "v23.0",
   GA4_ENDPOINT: "https://www.google-analytics.com/mp/collect",
   GOOGLE_ADS_API_VERSION: "v20",
