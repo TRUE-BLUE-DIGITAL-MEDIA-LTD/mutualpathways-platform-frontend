@@ -18,6 +18,7 @@ const CONFIG = Object.freeze({
   SERVICE: "Tracking Gateway",
   VERSION: "2.0.0",
   DEBUG: true,
+
   META_API_VERSION: "v23.0",
   GA4_ENDPOINT: "https://www.google-analytics.com/mp/collect",
   GOOGLE_ADS_API_VERSION: "v20",
@@ -25,11 +26,14 @@ const CONFIG = Object.freeze({
 
 const ENV = Object.freeze({
   BINOM_SECRET: process.env.BINOM_SECRET,
+
   META_PIXEL_ID: process.env.META_PIXEL_ID,
   META_ACCESS_TOKEN: process.env.META_ACCESS_TOKEN,
   META_TEST_EVENT_CODE: process.env.META_TEST_EVENT_CODE,
+
   GA4_MEASUREMENT_ID: process.env.GA4_MEASUREMENT_ID,
   GA4_API_SECRET: process.env.GA4_API_SECRET,
+
   GOOGLE_ADS_CUSTOMER_ID: process.env.GOOGLE_ADS_CUSTOMER_ID,
   GOOGLE_ADS_REG_ACTION: process.env.GOOGLE_ADS_REG_ACTION,
   GOOGLE_ADS_SALE_ACTION: process.env.GOOGLE_ADS_SALE_ACTION,
@@ -73,6 +77,7 @@ const REQUIRED_PARAMS = [
   "secret",
   "event",
   "clickid",
+  "client_id",
   "land",
   "acc",
   "site",
@@ -169,7 +174,7 @@ function buildContext(event) {
 
   const eventId = sha256(`${params.site}|${params.clickid}|${advertiserEvent}`);
 
-  const clientId = sha256(`${params.site}|${params.clickid}`);
+  const clientId = params.client_id;
 
   return {
     requestId,
