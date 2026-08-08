@@ -10,10 +10,12 @@ import Script from "next/script";
 import Navbar
   from "../../../components/Navbar";
 
+import * as Tracking from "../js/tracking";
+
 const steps = [
   {
     title:
-      "Before we show you the platform where women are looking for meaningful relationships...",
+      "Before we show you the platform where beatiful women are looking for meaningful relationships...",
     description:
       "Please, answer a few quick questions so we can help you to find the best match. It only takes a minute.",
     answers: ["Start"],
@@ -91,8 +93,7 @@ export default function Quiz7Page() {
     }
   };
 
-  const handleFinish = () => {
-
+ const handleFinish = () => {
   const incomingParams =
     new URLSearchParams(
       window.location.search,
@@ -105,7 +106,6 @@ export default function Quiz7Page() {
 
   incomingParams.forEach(
     (value, key) => {
-
       target.searchParams.set(
         key,
         value,
@@ -113,9 +113,20 @@ export default function Quiz7Page() {
     },
   );
 
+  const clientId =
+    Tracking.getGAClientId();
+
+  if (clientId) {
+    target.searchParams.set(
+      'client_id',
+      clientId,
+    );
+  }
+
   window.location.href =
     target.toString();
 };
+
 
   return (
 

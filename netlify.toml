@@ -1,0 +1,8 @@
+[build]
+  command = "npm run build"
+  functions = "netlify/functions"
+
+# Required for Next.js App Router on Netlify. The plugin sets `publish` itself
+# and wires the server/edge runtimes -- do not set `publish` here.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"

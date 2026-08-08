@@ -10,6 +10,8 @@ import Script from "next/script";
 import Navbar
   from "../../../components/Navbar";
 
+import * as Tracking from "../js/tracking";
+
 const questions = [
   {
     question:
@@ -111,7 +113,6 @@ export default function Quiz8Page() {
   };
 
   const enterMemberArea = () => {
-
   const incomingParams =
     new URLSearchParams(
       window.location.search,
@@ -124,7 +125,6 @@ export default function Quiz8Page() {
 
   incomingParams.forEach(
     (value, key) => {
-
       target.searchParams.set(
         key,
         value,
@@ -132,9 +132,21 @@ export default function Quiz8Page() {
     },
   );
 
+  const clientId =
+    Tracking.getGAClientId();
+
+  if (clientId) {
+    target.searchParams.set(
+      'client_id',
+      clientId,
+    );
+  }
+
   window.location.href =
     target.toString();
 };
+
+
 
   return (
 
