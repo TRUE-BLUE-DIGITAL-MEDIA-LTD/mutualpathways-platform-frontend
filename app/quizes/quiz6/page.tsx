@@ -11,7 +11,7 @@ import { useState } from "react";
 import Script from 'next/script';
 
 import Navbar
-  from '../../../components/Navbar';
+  from '../../../components/NavbarComm';
 
 import * as Tracking from "../js/tracking";
 
