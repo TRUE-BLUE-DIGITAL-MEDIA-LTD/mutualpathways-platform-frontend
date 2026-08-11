@@ -14,7 +14,7 @@ import * as Tracking from "../js/tracking";
 
 const slides = [
   "/images/woman_feed_03.jpeg",
-  "/images/wEman_feed_02.jpeg",
+  "/images/woman_feed_02.jpeg",
   "/images/woman_feed_01.jpeg",
 ];
 
