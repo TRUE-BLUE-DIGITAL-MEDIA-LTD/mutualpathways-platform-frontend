@@ -15,7 +15,7 @@ import * as Tracking from "../js/tracking";
 const steps = [
   {
     title:
-      "Before we show you the platform where beatiful women are looking for meaningful relationships...",
+      "Before we show you the platform where beautiful women are looking for meaningful relationships...",
     description:
       "Please, answer a few quick questions so we can help you to find the best match. It only takes a minute.",
     answers: ["Start"],
