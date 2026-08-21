@@ -266,7 +266,7 @@ export default function Quiz5Page() {
                 <button
                   key={answer}
                   onClick={nextStep}
-                  className="w-full rounded-2xl border-2 border-zinc-200 bg-white px-4 py-4 font-medium text-black hover:bg-pink-50"
+                  className="w-full rounded-2xl border-2 border-zinc-200 bg-pink-200 px-4 py-4 font-medium text-black hover:bg-pink-50"
                 >
                   {answer}
                 </button>

@@ -160,8 +160,8 @@ export default function Quiz7Page() {
       <div className="
         absolute
         inset-0
-        bg-black/60
-        backdrop-blur-[1px]
+        bg-black/40
+        backdrop-blur-[0.5px]
       " />
 
       <div className="

@@ -330,11 +330,11 @@ export default function Quiz8Page() {
                             rounded-2xl
                             border-2
                             border-zinc-200
-                            bg-white
+                            bg-violet-200
                             font-medium
                             transition-all
-                            hover:bg-pink-50
-                            hover:border-pink-200
+                            hover:bg-violet-50
+                            hover:border-violet-200
                             active:scale-[0.98]
                           "
                         >
