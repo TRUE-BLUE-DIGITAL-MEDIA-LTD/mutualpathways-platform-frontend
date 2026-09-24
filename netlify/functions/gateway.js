@@ -176,6 +176,16 @@ function buildContext(event) {
 
   const clientId = params.client_id;
 
+  const payout =
+  params.payout !== undefined && params.payout !== ""
+    ? Number(params.payout)
+    : null;
+
+  const currency =
+  params.currency !== undefined && params.currency !== ""
+    ? String(params.currency).trim().toUpperCase()
+    : "USD";
+
   return {
     requestId,
 
@@ -206,6 +216,9 @@ function buildContext(event) {
 
     eventId,
     clientId,
+
+    payout,
+    currency,
   };
 }
 
@@ -255,6 +268,10 @@ async function sendMeta(ctx) {
           site: ctx.site,
 
           ts: ctx.ts,
+          
+          value: ctx.payout,
+
+          currency: ctx.currency,
         },
       },
     ],
@@ -336,6 +353,10 @@ async function sendGA4(ctx) {
           ts: ctx.ts,
 
           clickid: ctx.clickid,
+
+          value: ctx.payout,
+
+          currency: ctx.currency,
         },
       },
     ],
@@ -469,6 +490,10 @@ async function sendGoogleAds(ctx) {
         gclid: ctx.gclid,
 
         conversionDateTime: ctx.conversionDateTime,
+
+        conversionValue: ctx.payout,
+
+        currencyCode: ctx.currency,
       },
     ],
 
