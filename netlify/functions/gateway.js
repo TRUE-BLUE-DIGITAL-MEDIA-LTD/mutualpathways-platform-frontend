@@ -177,14 +177,14 @@ function buildContext(event) {
   const clientId = params.client_id;
 
   const payout =
-  params.payout !== undefined && params.payout !== ""
-    ? Number(params.payout)
-    : null;
+    params.payout !== undefined && params.payout !== ""
+      ? Number(params.payout)
+      : null;
 
   const currency =
-  params.currency !== undefined && params.currency !== ""
-    ? String(params.currency).trim().toUpperCase()
-    : "USD";
+    params.currency !== undefined && params.currency !== ""
+      ? String(params.currency).trim().toUpperCase()
+      : "USD";
 
   return {
     requestId,
@@ -268,7 +268,7 @@ async function sendMeta(ctx) {
           site: ctx.site,
 
           ts: ctx.ts,
-          
+
           value: ctx.payout,
 
           currency: ctx.currency,
